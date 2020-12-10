@@ -20,7 +20,6 @@ import com.mailorderpharma.authservice.service.JwtUtil;
 import com.mailorderpharma.authservice.service.UnauthorizedException;
 
 @RestController
-//@RequestMapping("/authapp")
 public class AuthController {
 
 	@Autowired
