@@ -5,6 +5,6 @@ import org.springframework.http.ResponseEntity;
 import com.mailorderpharma.subscription.entity.PrescriptionDetails;
 
 public interface SubscriptionService {
-public ResponseEntity<?> subscribe(PrescriptionDetails prescriptionDetails);
-public ResponseEntity<?> unsubscribe(Long mId,Long sId);
+public ResponseEntity<String> subscribe(PrescriptionDetails prescriptionDetails);
+public ResponseEntity<String> unsubscribe(Long mId,Long sId);
 }

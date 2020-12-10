@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.mailorderpharma.subscription.entity.DrugDetails;
 
 
-@FeignClient(url="localhost:8081/")
+@FeignClient(url="http://localhost:8081/drugdetailapi",name="drugdetailapp")
 public interface DrugDetailClient {
 
 	@GetMapping("/searchDrugsByName/{name}")

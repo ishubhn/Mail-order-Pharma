@@ -20,4 +20,14 @@ public class SubscriptionDetails {
 	private LocalDate subscriptionDate;
 	private String memberLocation;
 	private String subscriptionStatus;
+	
+	public SubscriptionDetails(Long prescriptionId, Long memberId, LocalDate subscriptionDate, String memberLocation,
+			String subscriptionStatus) {
+		super();
+		this.prescriptionId = prescriptionId;
+		this.memberId = memberId;
+		this.subscriptionDate = subscriptionDate;
+		this.memberLocation = memberLocation;
+		this.subscriptionStatus = subscriptionStatus;
+	}
 }

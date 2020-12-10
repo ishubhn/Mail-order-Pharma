@@ -16,10 +16,11 @@ public class PrescriptionDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long PrescriptionId;
 	private Long memberId;
+	private String memberLocation;
 	private String policyNumber;
 	private String insuranceProvider;
 	private LocalDate prescriptionDate;
-	private Long drugId;
+	private String drugName;
 	private String dosageDefinition;
 	private String prescriptionCourse;
 	private String doctorName;
