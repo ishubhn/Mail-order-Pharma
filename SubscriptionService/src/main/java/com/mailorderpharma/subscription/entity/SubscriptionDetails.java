@@ -2,13 +2,16 @@ package com.mailorderpharma.subscription.entity;
 
 import java.time.LocalDate;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 @Entity
 public class SubscriptionDetails {
@@ -16,12 +19,14 @@ public class SubscriptionDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long subscriptionId;
 	private Long prescriptionId;
-	private Long memberId;
+	private int refillCycle;
+	private int quantity;
+	private String memberId;
 	private LocalDate subscriptionDate;
 	private String memberLocation;
 	private String subscriptionStatus;
 	
-	public SubscriptionDetails(Long prescriptionId, Long memberId, LocalDate subscriptionDate, String memberLocation,
+	public SubscriptionDetails(Long prescriptionId, int refillCycle, int quantity, String memberId, LocalDate subscriptionDate, String memberLocation,
 			String subscriptionStatus) {
 		super();
 		this.prescriptionId = prescriptionId;
@@ -29,5 +34,7 @@ public class SubscriptionDetails {
 		this.subscriptionDate = subscriptionDate;
 		this.memberLocation = memberLocation;
 		this.subscriptionStatus = subscriptionStatus;
+		this.refillCycle=refillCycle;
+		this.quantity=quantity;
 	}
 }

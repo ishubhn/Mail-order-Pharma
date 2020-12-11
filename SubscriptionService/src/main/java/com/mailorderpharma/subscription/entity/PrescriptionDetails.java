@@ -15,14 +15,15 @@ public class PrescriptionDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long PrescriptionId;
-	private Long memberId;
+	private String memberId;
 	private String memberLocation;
 	private String policyNumber;
 	private String insuranceProvider;
 	private LocalDate prescriptionDate;
 	private String drugName;
 	private String dosageDefinition;
-	private String prescriptionCourse;
+	private int quantity;
+	private int courseDuration;
 	private String doctorName;
 
 }
