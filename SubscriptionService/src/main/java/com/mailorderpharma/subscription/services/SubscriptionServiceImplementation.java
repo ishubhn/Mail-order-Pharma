@@ -83,4 +83,11 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 		return subscriptionRepo.findByMemberId(mId);
 	}
 
+	@Override
+	public ResponseEntity<String> getDrugNameBySubscriptionId(Long sId) {
+		Long pId= subscriptionRepo.findById(sId).orElseThrow().getPrescriptionId();
+		return new ResponseEntity<>(prescriptionRepo.findDrugByPrescriptionId(pId),HttpStatus.OK);
+	}
+
+
 }

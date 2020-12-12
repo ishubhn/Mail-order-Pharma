@@ -11,4 +11,5 @@ public interface SubscriptionService {
 public ResponseEntity<String> subscribe(PrescriptionDetails prescriptionDetails);
 public ResponseEntity<String> unsubscribe(String mId,Long sId);
 public List<SubscriptionDetails> getAllSubscriptions(String mId);
+public ResponseEntity<String> getDrugNameBySubscriptionId(Long sId);
 }

@@ -41,4 +41,8 @@ public class SubscriptionRestcontroller {
 		return subscriptionService.getAllSubscriptions(mId);
 	}
 	
+	@GetMapping("/getDrugName/{sId}")
+	public ResponseEntity<String> getDrugNameBySubscriptionId(@PathVariable("sId") Long sId){
+		return subscriptionService.getDrugNameBySubscriptionId(sId);
+	}
 }
