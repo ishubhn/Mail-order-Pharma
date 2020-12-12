@@ -85,8 +85,11 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 
 	@Override
 	public ResponseEntity<String> getDrugNameBySubscriptionId(Long sId) {
+		log.info("getDrugNameBySubscriptionId -"+sId);
 		Long pId= subscriptionRepo.findById(sId).orElseThrow().getPrescriptionId();
-		return new ResponseEntity<>(prescriptionRepo.findDrugByPrescriptionId(pId),HttpStatus.OK);
+		log.info("getDrugNameBySubscriptionId pId-"+pId);
+		String drugName=prescriptionRepo.findById(pId).orElseThrow().getDrugName();
+		return new ResponseEntity<>(drugName,HttpStatus.OK);
 	}
 
 
