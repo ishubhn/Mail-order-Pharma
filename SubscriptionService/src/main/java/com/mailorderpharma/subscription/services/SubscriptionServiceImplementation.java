@@ -42,7 +42,7 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 
 		} catch (Exception e) {
 			log.info("Inside catch unable to get drug details" + prescriptionDetails.getDrugName());
-			return new ResponseEntity<>("Subscription cannot be accepted due to drug unavailability.",
+			return new ResponseEntity<>("Subscription cannot be accepted due to drug unavailability."+e.getClass().toString(),
 					HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
