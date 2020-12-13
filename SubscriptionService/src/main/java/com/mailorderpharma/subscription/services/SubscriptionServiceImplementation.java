@@ -42,7 +42,7 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 	@Override
 	public ResponseEntity<String> subscribe(PrescriptionDetails prescriptionDetails, String token)
 			throws InvalidTokenException, FeignException {
-		log.info("Inside subscribe service method");
+		log.info("Inside subscribe service method"+prescriptionDetails.toString());
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			log.info("subscribe service method- token is valid");
 
@@ -54,7 +54,7 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 			SubscriptionDetails subscriptionDetails = new SubscriptionDetails(prescriptionDetails.getPrescriptionId(),
 					prescriptionDetails.getCourseDuration(), prescriptionDetails.getQuantity(),
 					prescriptionDetails.getMemberId(), LocalDate.now(), prescriptionDetails.getMemberLocation(),
-					"active");
+					"active",prescriptionDetails.getDrugName());
 
 			log.info("subs obj created");
 			subscriptionDetails = subscriptionRepo.save(subscriptionDetails);
@@ -107,9 +107,7 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 	public ResponseEntity<String> getDrugNameBySubscriptionId(Long sId, String token) throws InvalidTokenException {
 		log.info("getDrugNameBySubscriptionId -" + sId);
 		if (authFeign.getValidity(token).getBody().isValid()) {
-			Long pId = subscriptionRepo.findById(sId).orElseThrow().getPrescriptionId();
-			log.info("getDrugNameBySubscriptionId pId-" + pId);
-			String drugName = prescriptionRepo.findById(pId).orElseThrow().getDrugName();
+			String drugName = subscriptionRepo.findById(sId).orElseThrow().getDrugName();
 			return new ResponseEntity<>(drugName, HttpStatus.OK);
 		} else
 			throw new InvalidTokenException("Invalid Credentials");

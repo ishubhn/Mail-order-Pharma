@@ -19,6 +19,7 @@ public class SubscriptionDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long subscriptionId;
 	private Long prescriptionId;
+	private String drugName;
 	private int refillCycle;
 	private int quantity;
 	private String memberId;
@@ -27,7 +28,7 @@ public class SubscriptionDetails {
 	private String subscriptionStatus;
 	
 	public SubscriptionDetails(Long prescriptionId, int refillCycle, int quantity, String memberId, LocalDate subscriptionDate, String memberLocation,
-			String subscriptionStatus) {
+			String subscriptionStatus,String drugName) {
 		super();
 		this.prescriptionId = prescriptionId;
 		this.memberId = memberId;
@@ -36,5 +37,6 @@ public class SubscriptionDetails {
 		this.subscriptionStatus = subscriptionStatus;
 		this.refillCycle=refillCycle;
 		this.quantity=quantity;
+		this.drugName=drugName;
 	}
 }
