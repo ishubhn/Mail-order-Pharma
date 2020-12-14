@@ -1,5 +1,7 @@
 package com.mailorderpharma.drugservice.service;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 import com.mailorderpharma.drugservice.entity.DrugDetails;
@@ -19,5 +21,7 @@ public interface DrugDetailsService {
 
 	ResponseEntity<?> updateQuantity(String id, String location, int quantity, String token)
 			throws InvalidTokenException,DrugNotFoundException,StockNotFoundException;
+
+	List<DrugDetails> getAllDrugs();
 
 }

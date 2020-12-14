@@ -79,12 +79,12 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 	}
 
 	@Override
-	public ResponseEntity<?> updateQuantity(String id, String location, int quantity, String token)
+	public ResponseEntity<?> updateQuantity(String drugName, String location, int quantity, String token)
 			throws InvalidTokenException, DrugNotFoundException, StockNotFoundException {
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			DrugDetails details = null;
 			try {
-				details = drugRepo.findById(id).get();
+				details = drugRepo.findBydrugName(drugName).get();
 			} catch (Exception e) {
 
 				throw new DrugNotFoundException("Drug Not Found");
@@ -106,5 +106,11 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 				throw new StockNotFoundException("Stock Unavailable at your location");
 		}
 		throw new InvalidTokenException("Invalid Credentials");
+	}
+	
+	@Override
+	public List<DrugDetails> getAllDrugs() {
+		List<DrugDetails> drugList = drugRepo.findAll();
+		return drugList;
 	}
 }

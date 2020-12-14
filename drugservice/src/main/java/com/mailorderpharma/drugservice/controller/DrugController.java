@@ -1,5 +1,7 @@
 package com.mailorderpharma.drugservice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,10 @@ public class DrugController {
 	@Autowired
 	DrugDetailsService drugDetailsService;
 
+	@GetMapping("/getAllDrugs")
+	public List<DrugDetails> getAllDrugs() {
+		return drugDetailsService.getAllDrugs();
+	}
 	@GetMapping("/searchDrugsById/{id}")
 	public DrugDetails getDrugById(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
 			throws InvalidTokenException, DrugNotFoundException {

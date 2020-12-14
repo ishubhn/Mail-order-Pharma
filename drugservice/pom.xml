@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.6.RELEASE</version>
+		<version>2.3.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mailorderpharma</groupId>
@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -57,22 +58,12 @@
 		<!-- spring-cloud -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-dependencies</artifactId>
-			<version>Hoxton.SR6</version>
-			<scope>import</scope>
-			<type>pom</type>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
-			<version>2.2.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.6.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -82,7 +73,17 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -92,4 +93,11 @@
 		</plugins>
 	</build>
 
+<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
 </project>

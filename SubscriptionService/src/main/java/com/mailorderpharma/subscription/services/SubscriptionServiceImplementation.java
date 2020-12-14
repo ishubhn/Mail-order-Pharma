@@ -58,7 +58,7 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 
 			log.info("subs obj created");
 			subscriptionDetails = subscriptionRepo.save(subscriptionDetails);
-			refillClient.requestRefillSubscription(subscriptionDetails.getSubscriptionId(),
+			refillClient.requestRefillSubscription(token,subscriptionDetails.getSubscriptionId(),
 					subscriptionDetails.getMemberId(), subscriptionDetails.getQuantity(),
 					subscriptionDetails.getRefillCycle());
 
@@ -75,14 +75,14 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 			throws InvalidTokenException, FeignException {
 
 		if (authFeign.getValidity(token).getBody().isValid()) {
-			if (!refillClient.isPendingPaymentDues(sId)) {
+			if (!refillClient.isPendingPaymentDues(token,sId)) {
 				log.info("payment not clear");
 				return new ResponseEntity<>("You have to clear your payment dues first.", HttpStatus.BAD_REQUEST);
 			}
 			subscriptionRepo.deleteById(sId);
 			log.info("dleted " + sId);
 			// inform refill service to stop refilling for this sId
-			refillClient.deleteRefillData(sId);
+			refillClient.deleteRefillData(token,sId);
 			log.info("delete refill success");
 		} else
 			throw new InvalidTokenException("Invalid Credentials");

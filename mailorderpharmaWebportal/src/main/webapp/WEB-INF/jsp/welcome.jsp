@@ -40,14 +40,14 @@
     <div class="container">
 
       <div id="logo" class="pull-left">
-      <h3><a href="Mail Order Pharmacy">Mail Order Pharmacy</a></h3>
+      <h3><a href="home">Mail Order Pharmacy</a></h3>
       </div>
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="welcome.html">Home</a></li>
+          <li class="menu-active"><a href="home">Home</a></li>
           <li><a href="prescriptionform">Subscribe</a></li>
-          <li><a href="#services">Supported drugs</a></li>
+          <li><a href="supportedDrugs">Supported drugs</a></li>
           <li><a href="subscriptions">Subscribed medicines</a></li>
           <li><a href="#due-for-refill">Due for refill</a></li>
           <li><a href="#ad-hoc-requests">Request now</a></li>
@@ -138,16 +138,13 @@
       <div class="container" data-aos="fade-up">
         <div class="section-header">
           <h3 class="section-title">Supported Drugs</h3>
-          <p class="section-description">Please enter your location to search for the drugs delivarable in your area.</p>
+          <p class="section-description">View all the medicines we deliver by clicking the below button</p>
         </div>
         <div class="md-form md-bg input-with-pre-icon">
-          <form name="supportedDrugs" action="/supportedDrugs" method="post" model="LocationModel">
-            <label for="prefixInside4">Enter your location</label>
-            <input type="text" id="prefixInside4" class="form-control">
-            <br>
-            <button type="submit" class="btn btn-outline-success btn-lg ">Submit</button>
+          <form name="getSupportedDrugs" method="post" action="supportedDrugs">
+            <center><button type="submit" class="btn btn-outline-success btn-lg ">Submit</button></center>
           </form>
-          </div>
+         </div> 
         </div>
     </section><!-- End Services Section -->
 
@@ -175,9 +172,9 @@
           <p class="section-description">Please enter the date to check for dues.</p>
         </div>
         <div class="md-form md-bg input-with-pre-icon">
-          <form name="dueForRefill" action="/dueForRefill" method="post" model="DateModel">
+          <form name="dueForRefill" model="dateModel" action="/webportal/refillDueAsOfDate" method="post">
             <label for="example-date-input" class="col-2 col-form-label">Date</label>
-            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+            <input class="form-control" type="date" value="2011-08-19" name ="date" id="example-date-input">
             <br>
             <button type="submit" class="btn btn-outline-success btn-lg ">Submit</button>
           </form>

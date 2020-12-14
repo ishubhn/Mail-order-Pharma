@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @EnableAutoConfiguration
 @Configuration
-@EnableFeignClients("com")
+@EnableFeignClients
 public class MailorderpharmaWebportalApplication implements ServletContextInitializer {
 
 	public static void main(String[] args) {
