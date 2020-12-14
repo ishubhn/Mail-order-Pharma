@@ -5,14 +5,16 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mailorderpharma.refill.entity.RefillOrderSubscription;
+import com.mailorderpharma.refill.exception.InvalidTokenException;
 
 @Service
 public interface RefillOrderSubscriptionService {
-	
-	public  RefillOrderSubscription UpdateRefillOrderSubscription(long Sub_id,String memberId,int quantity ,int time);
-	
-	public List<RefillOrderSubscription> getall(); 
-	
-	public void deleteBySubscriptionId(long subscriptionId);
+
+	public RefillOrderSubscription UpdateRefillOrderSubscription(long Sub_id, String memberId, int quantity, int time,
+			String token) throws InvalidTokenException;
+
+	public List<RefillOrderSubscription> getall(String token) throws InvalidTokenException;
+
+	public void deleteBySubscriptionId(long subscriptionId, String token) throws InvalidTokenException;
 
 }

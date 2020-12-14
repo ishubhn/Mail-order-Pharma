@@ -18,8 +18,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class RefillOrder {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
