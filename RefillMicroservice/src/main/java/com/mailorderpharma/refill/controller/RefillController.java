@@ -57,7 +57,7 @@ public class RefillController {
 
 	@RequestMapping(path = "/requestAdhocRefill/{sub_id}/{pay_status}/{quantity}/{location}", method = RequestMethod.POST)
 	public ResponseEntity<RefillOrder> requestAdhocRefill(@RequestHeader("Authorization") String token,
-			@PathVariable("sub_id") int i, @PathVariable("pay_status") Boolean pay_status,
+			@PathVariable("sub_id") Long i, @PathVariable("pay_status") Boolean pay_status,
 			@PathVariable("quantity") int quantity, @PathVariable("location") String location)
 			throws ParseException, FeignException, InvalidTokenException, DrugQuantityNotAvailable {
 		log.info("Inside Refill Controller requestAdhocRefill method");
