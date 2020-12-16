@@ -26,14 +26,14 @@ public class SubscriptionRestcontroller {
 	private SubscriptionService subscriptionService;
 
 	@PostMapping("/subscribe")
-	public ResponseEntity<?> subscribe(@RequestHeader("Authorization") String token,
+	public ResponseEntity<String> subscribe(@RequestHeader("Authorization") String token,
 			@RequestBody PrescriptionDetails prescriptionDetails) throws InvalidTokenException {
 		log.info("Inside subscribe controller method");
 		return subscriptionService.subscribe(prescriptionDetails, token);
 	}
 
 	@PostMapping("/unsubscribe/{mId}/{sId}")
-	public ResponseEntity<?> unsubscribe(@RequestHeader("Authorization") String token,
+	public ResponseEntity<String> unsubscribe(@RequestHeader("Authorization") String token,
 			@PathVariable("mId") String memberId, @PathVariable("sId") Long subscriptionId)
 			throws InvalidTokenException {
 		log.info("Inside unsubscribe method");

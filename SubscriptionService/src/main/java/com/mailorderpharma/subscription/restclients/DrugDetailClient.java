@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import com.mailorderpharma.subscription.entity.DrugDetails;
 
 
-@FeignClient(url="http://localhost:8081/drugdetailapi",name="drugdetailapp")
+@FeignClient(url = "${drugservice.client.url}", name = "${drugservice.client.name}")
 public interface DrugDetailClient {
 
 	@GetMapping("/searchDrugsByName/{name}")

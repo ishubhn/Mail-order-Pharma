@@ -22,11 +22,11 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
 			return new ResponseStatusException(HttpStatus.valueOf(response.status()), "Content is not available");
 		}
-		case 503: {
+		case 204: {
 			log.error("Error took place when using Feign client to send HTTP Request. Status code " + response.status()
 					+ ", methodKey = " + methodKey);
 
-			return new ResponseStatusException(HttpStatus.valueOf(response.status()), "Temporarily Service is unavailable, Please try again later");
+			return new ResponseStatusException(HttpStatus.valueOf(response.status()), "Requested object is empty.");
 		}
 		default:
 			return new Exception(response.reason());

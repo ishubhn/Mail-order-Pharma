@@ -17,17 +17,18 @@ import com.mailorderpharma.webportal.exceptions.InvalidTokenException;
 
 import feign.FeignException;
 
-
-@FeignClient(name = "refillapp",url = "localhost:8454/refillapp")
+@FeignClient(name = "${refillservice.client.name}", url = "${refillservice.client.url}")
 public interface RefillClient {
 
-	@RequestMapping(value = "/getRefillDuesAsOfDate/{memberId}/{date}", method = RequestMethod.GET)
-	public ResponseEntity<List<RefillOrderSubscription>> getRefillDuesAsOfDate(
-			@PathVariable("memberId") String memberId, @PathVariable("date") int date);
-	
 	@RequestMapping(path = "/requestAdhocRefill/{sub_id}/{pay_status}/{quantity}/{location}", method = RequestMethod.POST)
 	public ResponseEntity<RefillOrder> requestAdhocRefill(@RequestHeader("Authorization") String token,
 			@PathVariable("sub_id") long sub_id, @PathVariable("pay_status") Boolean pay_status,
 			@PathVariable("quantity") int quantity, @PathVariable("location") String location)
 			throws ParseException, FeignException, InvalidTokenException, DrugQuantityNotAvailable;
+
+	@RequestMapping(path = "/getRefillDuesAsOfDate/{memberId}/{date}", method = RequestMethod.GET)
+	public ResponseEntity<List<RefillOrderSubscription>> getRefillDuesAsOfDate(
+			@RequestHeader("Authorization") String token, @PathVariable("memberId") String memberId,
+			@PathVariable("date") int date) throws InvalidTokenException;
+
 }

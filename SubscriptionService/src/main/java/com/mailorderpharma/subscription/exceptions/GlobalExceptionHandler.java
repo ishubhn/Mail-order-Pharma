@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 	public  ResponseEntity<ErrorMessage> subscriptionListEmptyException(SubscriptionListEmptyException subscriptionListEmptyException) {
 		return new ResponseEntity<ErrorMessage>(
 				new ErrorMessage(HttpStatus.NOT_FOUND, LocalDateTime.now(), subscriptionListEmptyException.getMessage()),
-				HttpStatus.NOT_FOUND);
+				HttpStatus.NO_CONTENT);
 	}
 
 	@ExceptionHandler(feign.RetryableException.class)

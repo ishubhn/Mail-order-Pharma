@@ -128,6 +128,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 				log.info("refiloredr sabed");
 				return refillOrder;
 			} else {
+				log.info("not 200"+entityname.getBody());
 				throw new DrugQuantityNotAvailable("DrugQuantityNotAvailable");
 
 			}

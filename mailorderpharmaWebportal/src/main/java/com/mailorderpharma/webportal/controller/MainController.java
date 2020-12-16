@@ -23,7 +23,6 @@ import com.mailorderpharma.webportal.entity.PrescriptionDetails;
 import com.mailorderpharma.webportal.entity.UserData;
 import com.mailorderpharma.webportal.exceptions.DrugQuantityNotAvailable;
 import com.mailorderpharma.webportal.exceptions.InvalidTokenException;
-import com.mailorderpharma.webportal.restclients.AuthClient;
 import com.mailorderpharma.webportal.service.PortalService;
 
 import feign.FeignException;
@@ -32,9 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MainController {
-
-	@Autowired
-	AuthClient authclient;
 
 	@Autowired
 	private PortalService portalService;
@@ -47,35 +43,34 @@ public class MainController {
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
-	public String postLogin(@ModelAttribute UserData user, HttpSession session) {
+	public String postLogin(@ModelAttribute UserData user, HttpSession session, ModelMap warning)
+			throws FeignException {
 		log.info("inn login post" + user.toString());
 
-		UserData res = null;
-		try {
-			res = authclient.login(user);
-			log.info("inn login post login success");
-		} catch (Exception e) {
-			return "login";
-		}
-		session.setAttribute("token", "Bearer " + res.getAuthToken());
-		session.setAttribute("memberId", res.getUserid());
-		return getWelcome(session);
+		return portalService.postLogin(user, session, warning);
 	}
 
 	@GetMapping("/home")
-	public String getWelcome(HttpSession session) {
+	public String getWelcome(HttpSession session) throws FeignException {
 		return portalService.getWelcome((String) session.getAttribute("token"));
 	}
 
+	@GetMapping("/logout")
+	public String logout(HttpSession session) throws FeignException {
+		session.invalidate();
+		return "redirect:/";
+	}
 	/* DrugService end-points--------------------- */
 
 	@GetMapping("/supportedDrugs")
 	public String getSupportedDrugs(HttpSession session, ModelMap warning) {
-		return postSupportedDrugs(session, warning);
+		if (portalService.isSessionValid(session))
+			return postSupportedDrugs(session, warning);
+		return "redirect:/";
 	}
 
 	@PostMapping(path = "/supportedDrugs")
-	public String postSupportedDrugs(HttpSession session, ModelMap warning) {
+	public String postSupportedDrugs(HttpSession session, ModelMap warning) throws FeignException {
 		log.info("Controller supportedDrugs");
 		return portalService.getSupportedDrugs(session, warning);
 	}
@@ -83,13 +78,15 @@ public class MainController {
 	/* Subscription end-points--------------------- */
 
 	@GetMapping("/prescriptionform")
-	public String getPrescriptionForm() {
-		return "prescription";
+	public String getPrescriptionForm(HttpSession session) {
+		if (portalService.isSessionValid(session))
+			return "prescription";
+		return "redirect:/";
 	}
 
 	@PostMapping("/subscribe")
 	public ModelAndView subscribe(@ModelAttribute PrescriptionDetails prescriptionDetails, HttpSession session,
-			BindingResult result) {
+			BindingResult result) throws FeignException {
 		log.info("inn subscribe post controller " + prescriptionDetails.toString());
 		ModelAndView view = new ModelAndView("prescription");
 		view.addObject("msg", portalService.subscribe(prescriptionDetails, session));
@@ -97,25 +94,22 @@ public class MainController {
 	}
 
 	@GetMapping("/subscriptions")
-	public ModelAndView getAllSubscriptions(HttpSession session, Model model) {
-		ModelAndView view = new ModelAndView("subscriptions");
-		view.addObject("subscriptionList", portalService.getSubscriptions(session));
-		return view;
+	public String getAllSubscriptions(HttpSession session, Model model) throws FeignException {
+		log.info("controller getAllSubscriptions");
+		return portalService.postSubscriptions(session, model);
 	}
 
 	@PostMapping("/unsubscribe/{sId}")
-	public String getAllSubsAfterUnsubscribe(@PathVariable Long sId, HttpSession session, Model model) {
+	public String getSubsAfterUnsubscribe(@PathVariable Long sId, HttpSession session, Model model) {
 
 		return portalService.unsubscribe(session, sId);
 	}
 	/* Refill end-points-------------------- */
 
 	@PostMapping("/refillDueAsOfDate")
-	public ModelAndView getRefillDueAsofDate(@ModelAttribute DateModel dateModel, HttpSession session) {
-		ModelAndView view = new ModelAndView("refillDueAsofDate");
-		view.addObject("refillDues",
-				portalService.getRefillDueAsofDate((String) session.getAttribute("token"), session, dateModel));
-		return view;
+	public String getRefillDueAsofDate(@ModelAttribute DateModel dateModel, HttpSession session, Model model) throws NumberFormatException, InvalidTokenException {
+
+		return portalService.getRefillDueAsofDate(session, dateModel, model);
 	}
 
 	@GetMapping("/adhocRefill/{sId}")
@@ -128,12 +122,14 @@ public class MainController {
 	}
 
 	@PostMapping("/postAdhocRefill")
-	public ModelAndView postAdHocDetails( @ModelAttribute AdHocModel adHocModel, HttpSession session,BindingResult result)
-			throws NumberFormatException, FeignException, ParseException, InvalidTokenException,
+	public ModelAndView postAdHocDetails(@ModelAttribute AdHocModel adHocModel, HttpSession session,
+			BindingResult result) throws NumberFormatException, FeignException, ParseException, InvalidTokenException,
 			DrugQuantityNotAvailable {
-		log.info("in postAdHocDetails controller "+adHocModel.getLocation()+adHocModel.isPaymentStatus()+adHocModel.getQuantity());
-		ModelAndView view = new ModelAndView("blank");
-		portalService.requestAdhocRefill( session, adHocModel);
+		log.info("in postAdHocDetails controller " + adHocModel.getLocation() + adHocModel.isPaymentStatus()
+				+ adHocModel.getQuantity());
+		ModelAndView view = new ModelAndView("refillstatus");
+		portalService.requestAdhocRefill(session, adHocModel);
+		view.addObject("msg", portalService.requestAdhocRefill( session, adHocModel));
 		return view;
 	}
 }

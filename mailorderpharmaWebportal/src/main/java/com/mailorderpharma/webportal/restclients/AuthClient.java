@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.mailorderpharma.webportal.entity.AuthResponse;
 import com.mailorderpharma.webportal.entity.UserData;
 
-@FeignClient(name = "authentication",url = "localhost:8090/authapp")
+@FeignClient(name = "${authservice.client.name}",url = "${authservice.client.url}")
 public interface AuthClient {
 	
 	

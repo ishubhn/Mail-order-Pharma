@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -28,8 +28,11 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
+<link href="vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="vendor/owl.carousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<link href="vendor/venobox/venobox.css" rel="stylesheet">
 <link href="vendor/aos/aos.css" rel="stylesheet">
-
 <!-- Template Main CSS File -->
 <link href="style/style.css" rel="stylesheet">
 </head>
@@ -40,7 +43,7 @@
 
 			<div id="logo" class="pull-left">
 				<h3>
-					<a href="#hero">Mail Order Pharmacy</a>
+					<a href="home">Mail Order Pharmacy</a>
 				</h3>
 			</div>
 
@@ -64,26 +67,26 @@
 	<br>
 	<section id="services">
 		<div class="container" style="padding: 7%">
-			<form method = "POST" action = "/webportal/postAdhocRefill">
-			<table>
-			<tr>
-			<th>Quantity</th>
-			<td><input type="number" name= "quantity" /></td>
-			</tr>
-			<tr>
-			<th>Location</th>
-			<td><input type="text" name= "location" /></td>
-			</tr>
-			<tr>
-			<th>Payment Status</th>
-			<td><input type="checkbox" name = "paymentStatus" /></td>
-			</tr>
-			<tr>
-			<td><button type="submit" class="btn btn-success">Submit</button></td>
-			</tr>
-			</table>
-				
-				
+			<form method="POST" action="/webportal/postAdhocRefill">
+				<table>
+					<tr>
+						<th>Quantity</th>
+						<td><input type="number" name="quantity" /></td>
+					</tr>
+					<tr>
+						<th>Location</th>
+						<td><input type="text" name="location" /></td>
+					</tr>
+					<tr>
+						<th>Payment Status</th>
+						<td><input type="checkbox" name="paymentStatus" /></td>
+					</tr>
+					<tr>
+						<td><button type="submit" class="btn btn-success">Submit</button></td>
+					</tr>
+				</table>
+
+
 			</form>
 		</div>
 	</section>
@@ -98,6 +101,14 @@
 		</div>
 	</footer>
 	<!-- End Footer -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="vendor/jquery.easing/jquery.easing.min.js"></script>
+	<script src="vendor/counterup/counterup.min.js"></script>
+	<script src="vendor/waypoints/jquery.waypoints.min.js"></script>
+	<script src="vendor/aos/aos.js"></script>
 
+	<!-- Template Main JS File -->
+	<script src="js/main.js"></script>
 </body>
 </html>

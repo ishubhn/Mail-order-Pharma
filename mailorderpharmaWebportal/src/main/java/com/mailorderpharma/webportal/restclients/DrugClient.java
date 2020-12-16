@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.mailorderpharma.webportal.entity.DrugDetails;
 
-@FeignClient(name = "drug-service", url = "localhost:8081/drugdetailapi")
+@FeignClient(url = "${drugservice.client.url}", name = "${drugservice.client.name}")
 public interface DrugClient {
 
 	@GetMapping("/getAllDrugs")

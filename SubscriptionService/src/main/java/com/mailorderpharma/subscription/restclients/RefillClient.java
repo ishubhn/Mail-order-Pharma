@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(url = "http://localhost:8454/refillapp", name = "refillapp")
+@FeignClient(name = "${refillservice.client.name}", url = "${refillservice.client.url}")
 public interface RefillClient {
 
 	@GetMapping("/getRefillPaymentDues/{sub_id}")

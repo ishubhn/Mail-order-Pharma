@@ -47,8 +47,8 @@ public class RefillController {
 		return ResponseEntity.ok().body(service.getRefillDuesAsOfDate(memberId, date, token));
 	}
 
-	@RequestMapping(path = "/getRefillDuesAsOfPayment/{subscriptionId}", method = RequestMethod.GET)
-	public ResponseEntity<Boolean> getRefillDuesAsOfPayment(@RequestHeader("Authorization") String token,
+	@RequestMapping(path = "/getRefillPaymentDues/{subscriptionId}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> getRefillPaymentDues(@RequestHeader("Authorization") String token,
 			@PathVariable("subscriptionId") long subscriptionId) throws InvalidTokenException {
 		log.info("Inside Refill Controller getRefillDuesAsOfDate method");
 

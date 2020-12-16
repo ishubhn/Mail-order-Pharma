@@ -36,13 +36,14 @@
                <form name="loginform" model="UserData" method="post" action="login"> 
                     <div class="form-group">
                         <label>User Name</label>
-                        <input type="text" class="form-control" name="userid" placeholder="User Name">
+                        <input type="text" class="form-control" name="userid" placeholder="User Name" required>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control"  name="upassword" placeholder="Password">
+                        <input type="password" class="form-control"  name="upassword" placeholder="Password" required>
                     </div>
                     <button type="submit" class="btn btn-black">Login</button>
+                    <p>${errormsg}</p>
                 </form>
             </div>
         </div>

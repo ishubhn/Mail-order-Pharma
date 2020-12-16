@@ -1,7 +1,6 @@
 package com.mailorderpharma.drugservice.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import com.mailorderpharma.drugservice.dao.DrugLocationRepository;
 import com.mailorderpharma.drugservice.entity.DrugDetails;
 import com.mailorderpharma.drugservice.entity.DrugLocationDetails;
 import com.mailorderpharma.drugservice.entity.Stock;
+import com.mailorderpharma.drugservice.entity.SuccessResponse;
 import com.mailorderpharma.drugservice.exception.DrugNotFoundException;
 import com.mailorderpharma.drugservice.exception.InvalidTokenException;
 import com.mailorderpharma.drugservice.exception.StockNotFoundException;
@@ -79,29 +79,32 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 	}
 
 	@Override
-	public ResponseEntity<?> updateQuantity(String drugName, String location, int quantity, String token)
+	public ResponseEntity<SuccessResponse> updateQuantity(String drugName, String location, int quantity, String token)
 			throws InvalidTokenException, DrugNotFoundException, StockNotFoundException {
 		if (authFeign.getValidity(token).getBody().isValid()) {
-			DrugDetails details = null;
+			DrugDetails details = new DrugDetails();
 			try {
 				details = drugRepo.findBydrugName(drugName).get();
+				System.out.println(details.toString());
 			} catch (Exception e) {
 
 				throw new DrugNotFoundException("Drug Not Found");
 			}
 			List<DrugLocationDetails> dummy = details.getDruglocationQuantities().stream()
 					.filter(x -> x.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
+			
+			if (dummy.size() == 0) {
+					System.out.println("Inside dummy 0");
+					throw new StockNotFoundException("Stock Unavailable at your location"); 
+				}
 
-			if (dummy.size() == 0)
-				throw new StockNotFoundException("Stock Unavailable at your location");
+			else if (dummy.get(0).getQuantity() >= quantity) {
 
-			if (dummy.get(0).getQuantity() >= quantity) {
-
-				Optional<DrugLocationDetails> tempDetails = locationRepo.findById(dummy.get(0).getSerialId());
-				int val = tempDetails.get().getQuantity() - quantity;
-				tempDetails.get().setQuantity(val);
-				locationRepo.save(tempDetails.get());
-				return new ResponseEntity<>(new String("Refill Done Successfully"), HttpStatus.OK);
+				DrugLocationDetails tempDetails = locationRepo.findByserialId(dummy.get(0).getSerialId()).get(0);
+				int val = tempDetails.getQuantity() - quantity;
+				tempDetails.setQuantity(val);
+				locationRepo.save(tempDetails);
+				return new ResponseEntity<SuccessResponse>(new SuccessResponse("Refill Done Successfully"), HttpStatus.OK);
 			} else
 				throw new StockNotFoundException("Stock Unavailable at your location");
 		}

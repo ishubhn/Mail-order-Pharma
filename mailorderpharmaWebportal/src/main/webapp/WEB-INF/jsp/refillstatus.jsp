@@ -7,8 +7,7 @@
  
 <!DOCTYPE html>
 <html>
-
-	<head>
+<head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -43,11 +42,11 @@
       <nav id="nav-menu-container">
         <ul class="nav-menu">
           <li class="menu-active"><a href="home">Home</a></li>
-          <li><a href="prescriptionform">Subscribe</a></li>
-          <li><a href="supportedDrugs">Supported drugs</a></li>
-          <li><a href="subscriptions">Subscribed medicines</a></li>
-          <li><a href="#due-for-refill">Due for refill</a></li>
-          <li><a href="#ad-hoc-requests">Request now</a></li>
+          <li><a href="home#subscribe">Subscribe</a></li>
+          <li><a href="home#services">Supported drugs</a></li>
+          <li><a href="home#view-subscribed-drugs">Subscribed medicines</a></li>
+          <li><a href="home#due-for-refill">Due for refill</a></li>
+          <li><a href="home#ad-hoc-requests">Request now</a></li>
           <li><a href="">Logout</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
@@ -55,20 +54,23 @@
   </header><!-- End Header -->
   <br><br>
   <section id="services">
-   <div class="container">
-    <c:forEach items="${drugList}" var="itr">
-     ${itr.drugName}<br>
-     ${itr.manufacturer}<br>
-     ${itr.manufactureDate}<br>
-     ${itr.expiryDate}<br>
-     <c:forEach items="${itr.druglocationQuantities}" var="itr1">
-     ${itr1.location}
-     ${itr1.quantity}<br>
-     </c:forEach>
-     <br><br>
-   </c:forEach>
-   </div>
-  </section>
+   <div class="container bcontent">
+				<div class="card" style="width: 500px;">
+					<div class="row no-gutters">
+						<div class="col-sm-7">
+							<div class="card-body">
+								<h5 class="card-title">${msg.memberId }</h5>
+								<p class="card-text">Quantity: ${msg.quantity }</p>
+								<p class="card-text">Refilled Date:
+									${msg.refilledDate }</p>
+								<p class="card-text">Pay Status:
+									${msg.pay_status }</p>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+  </section><br><br><br><br><br><br><br><br>
     <!-- ======= Footer ======= -->
   <footer id="footer" class="mt-auto fixed-bottom">
     <div class="footer-top">

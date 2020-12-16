@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>Prescription Form</title>
+<title>Mail Order Pharmacy</title>
 <meta content="" name="description">
 <meta content="" name="keywords">
 
@@ -67,82 +67,89 @@
 			</div>
 
 			<nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li class="menu-active"><a href="home">Home</a></li>
-          <li><a href="prescriptionform">Subscribe</a></li>
-          <li><a href="supportedDrugs">Supported drugs</a></li>
-          <li><a href="subscriptions">Subscribed medicines</a></li>
-          <li><a href="#due-for-refill">Due for refill</a></li>
-          <li><a href="#ad-hoc-requests">Request now</a></li>
-          <li><a href="">Logout</a></li>
-        </ul>
-      </nav><!-- #nav-menu-container -->
+				<ul class="nav-menu">
+					<li class="menu-active"><a href="home">Home</a></li>
+					<li><a href="prescriptionform">Subscribe</a></li>
+					<li><a href="supportedDrugs">Supported drugs</a></li>
+					<li><a href="subscriptions">Subscribed medicines</a></li>
+					<li><a href="#due-for-refill">Due for refill</a></li>
+					<li><a href="#ad-hoc-requests">Request now</a></li>
+					<li><a href="logout">Logout</a></li>
+				</ul>
+			</nav>
+			<!-- #nav-menu-container -->
 		</div>
 	</header>
 	<!-- End Header -->
-	<section>
-		<h1>Your Subscriptions</h1>
-
-		<div class="container bcontent">
-			<h2>Your Subscriptions</h2>
-			<hr />
-			<c:forEach items="${subscriptionList}" var="subscription">
-				<div class="card" style="width: 500px;">
-					<div class="row no-gutters">
-						<div class="col-sm-7">
-							<div class="card-body">
-								<h5 class="card-title">${subscription.drugName }</h5>
-								<p class="card-text">Quantity: ${subscription.quantity }</p>
-								<p class="card-text">Refill Cycle Period:
-									${subscription.refillCycle }</p>
-								<p class="card-text">Subscription Date:
-									${subscription.subscriptionDate }</p>
-								<p class="card-text">Subscription Status:
-									${subscription.subscriptionStatus }</p>
-								<p class="card-text">Delivery Location:
-									${subscription.memberLocation }</p>
-								<form method=post
-									action="unsubscribe/${subscription.subscriptionId }">
-									<a class="btn btn-primary"><input type=submit
-										value="Unsubscribe"></a>
-								</form>
-								<form method=get
-									action="adhocRefill/${subscription.subscriptionId}">
-									<a class="btn btn-primary"><input type=submit
-										value="Request for Refill"></a>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-		<h1>Footer</h1>
-		<h1>Footer</h1>
-	</section>
-	<!-- ======= Footer ======= -->
-	<footer id="footer" class="mt-auto fixed-bottom">
-		<div class="footer-top">
-			<div class="container"></div>
-		</div>
-
+	<section id="services">
 		<div class="container">
-			<div class="copyright">
-				&copy; Copyright <strong>Regna</strong>. All Rights Reserved
-			</div>
-			<div class="credits">
-				<!--
-        All the links in the footer should remain intact.
-        You can delete the links only if you purchased the pro version.
-        Licensing information: https://bootstrapmade.com/license/
-        Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Regna
-      -->
-				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			<br>
+			<br>
+			<h1>Your Subscriptions</h1>
+
+			<div class="container bcontent">
+				<hr />
+				<c:choose>
+					<c:when test="${not empty subscriptionList}">
+						<c:forEach items="${subscriptionList}" var="subscription">
+							<div class="card" style="width: 500px;">
+								<div class="row no-gutters">
+									<div class="col-sm-7">
+										<div class="card-body">
+											<h5 class="card-title">${subscription.drugName }</h5>
+											<p class="card-text">Quantity: ${subscription.quantity }</p>
+											<p class="card-text">Refill Cycle Period:
+												${subscription.refillCycle }</p>
+											<p class="card-text">Subscription Date:
+												${subscription.subscriptionDate }</p>
+											<p class="card-text">Subscription Status:
+												${subscription.subscriptionStatus }</p>
+											<p class="card-text">Delivery Location:
+												${subscription.memberLocation }</p>
+											<form method=post
+												action="unsubscribe/${subscription.subscriptionId }">
+												<a class="btn btn-primary"><input type=submit
+													value="Unsubscribe"></a>
+											</form>
+											<form method=get
+												action="adhocRefill/${subscription.subscriptionId}">
+												<a class="btn btn-primary"><input type=submit
+													value="Request for Refill"></a>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<h1>${msg}</h1>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
-	</footer>
-	<!-- End Footer -->
+	</section>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<!-- ======= Footer ======= -->
+	<div class="footer-margin">
+		<footer id="footer">
+			<div class="footer-top">
+				<div class="container"></div>
+			</div>
 
+			<div class="container">
+				<div class="credits">Thank you! We are here for your needs.</div>
+			</div>
+		</footer>
+		<!-- End Footer -->
+	</div>
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="vendor/jquery.easing/jquery.easing.min.js"></script>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mailorderpharma.drugservice.entity.DrugDetails;
 import com.mailorderpharma.drugservice.entity.Stock;
+import com.mailorderpharma.drugservice.entity.SuccessResponse;
 import com.mailorderpharma.drugservice.exception.DrugNotFoundException;
 import com.mailorderpharma.drugservice.exception.InvalidTokenException;
 import com.mailorderpharma.drugservice.exception.StockNotFoundException;
@@ -46,9 +47,9 @@ public class DrugController {
 	}
 
 	@PutMapping("/updateDispatchableDrugStock/{id}/{location}/{quantity}")
-	public ResponseEntity<?> updateQuantity(@RequestHeader("Authorization") String token, @PathVariable("id") String id,
+	public ResponseEntity<SuccessResponse>  updateQuantity(@RequestHeader("Authorization") String token, @PathVariable("id") String id,
 			@PathVariable("location") String location, @PathVariable("quantity") int quantity)
 			throws InvalidTokenException,DrugNotFoundException,StockNotFoundException {
-		return drugDetailsService.updateQuantity(id, location, quantity, token);
+		return  drugDetailsService.updateQuantity(id, location, quantity, token);
 	}
 }

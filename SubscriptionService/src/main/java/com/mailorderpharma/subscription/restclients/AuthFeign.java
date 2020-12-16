@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mailorderpharma.subscription.entity.TokenValid;
 
-@FeignClient(name = "authapp", url = "http://localhost:8090/authapp")
+@FeignClient(name = "${authservice.client.name}",url = "${authservice.client.url}")
 public interface AuthFeign {
 
 	@RequestMapping(value = "/validate", method = RequestMethod.GET)
