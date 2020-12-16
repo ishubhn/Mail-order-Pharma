@@ -6,27 +6,61 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class PrescriptionDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long PrescriptionId;
 	private String memberId;
+	@NotEmpty(message = "Location cannot be empty")
+	@Pattern(regexp = "[A-z]+",message = "Location must contain only Alphabets")
+	@Size(min = 1,max = 20)
 	private String memberLocation;
+	
+	@NotEmpty(message = "PolicyNumber Name canot be empty")
+	@Pattern(regexp = "[A-z0-9]+",message = "PolicyNumber must contain only Numbers or Alphabets or Combination of Both")
+	@Size(min = 1,max = 20)
 	private String policyNumber;
+	
+	@NotEmpty(message = "Insurance Provider cannot be empty")
+	@Pattern(regexp = "[a-zA-Z]+",message = "Insurance Provider must contain only Alphabets")
+	@Size(min = 1,max = 20)
 	private String insuranceProvider;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	
 	private LocalDate prescriptionDate;
+	
+	@NotEmpty(message = "DrugName cannot be empty")
+	@Pattern(regexp = "[A-z0-9]+",message = "DrugName must contain only Numbers or Alphabets or Combination of Both")
+	@Size(min = 1,max = 20)
 	private String drugName;
+	
+	
 	private String dosageDefinition;
+	
+	@Min(1)
+	@Max(100)
 	private int quantity;
+	
+	@Min(1)
+	@Max(15)
 	private int courseDuration;
+	
+	@NotEmpty(message = "DoctorName cannot be empty")
+	@Pattern(regexp = "[A-z]+",message = "DoctorName must contain only Alphabets")
+	@Size(min = 1,max = 20)
 	private String doctorName;
 
 }
