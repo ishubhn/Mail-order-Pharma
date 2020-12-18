@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mailorderpharma.refill.entity.ExceptionResponse;
 
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,9 +23,9 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(SubscriptionIdNotFoundException.class)
-	public ResponseEntity<ExceptionResponse> subscriptionIdNotFoundException(SubscriptionIdNotFoundException SubscriptionIdNotFoundException) {
+	public ResponseEntity<ExceptionResponse> subscriptionIdNotFoundException(SubscriptionIdNotFoundException subscriptionException) {
 		return new ResponseEntity<ExceptionResponse>(
-				new ExceptionResponse(SubscriptionIdNotFoundException.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND),
+				new ExceptionResponse(subscriptionException.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND),
 				HttpStatus.NOT_FOUND);
 	}
 
@@ -40,8 +38,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(DrugQuantityNotAvailable.class)
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-	public ResponseEntity<ExceptionResponse>  DrugQuantityNotAvailable(DrugQuantityNotAvailable drugQuantityNotAvailable) {
-		log.info("in global exc refill drugquantity not availablr");
+	public ResponseEntity<ExceptionResponse>  drugQuantityNotAvailable(DrugQuantityNotAvailable drugException) {
 		return new ResponseEntity<ExceptionResponse>(
 				new ExceptionResponse("DrugQuantityNotAvailable", LocalDateTime.now(),HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
 	}

@@ -30,19 +30,19 @@ class RefillOrderSubscriptionServiceImplTest {
 	AuthFeign authFeign;
 
 	@Test
-	public void UpdateRefillOrderSubscriptionTest() throws InvalidTokenException {
+	public void updateRefillOrderSubscriptionTest() throws InvalidTokenException {
 		TokenValid response = new TokenValid("uid", "name", true);
 		when(authFeign.getValidity("token")).thenReturn(response);
-		refillOrderSubscriptionServiceImpl.UpdateRefillOrderSubscription(45, "memberId", 45, 4, "token");
+		refillOrderSubscriptionServiceImpl.updateRefillOrderSubscription(45, "memberId", 45, 4, "token");
 
 	}
 
 	@Test
-	public void UpdateRefillOrderSubscriptionTestFalse() throws InvalidTokenException {
+	public void updateRefillOrderSubscriptionTestFalse() throws InvalidTokenException {
 		TokenValid response = new TokenValid("uid", "name", false);
 		when(authFeign.getValidity("token")).thenReturn(response);
 		assertThrows(InvalidTokenException.class,
-				() -> refillOrderSubscriptionServiceImpl.UpdateRefillOrderSubscription(45, "memberId", 45, 4, "token"));
+				() -> refillOrderSubscriptionServiceImpl.updateRefillOrderSubscription(45, "memberId", 45, 4, "token"));
 
 	}
 

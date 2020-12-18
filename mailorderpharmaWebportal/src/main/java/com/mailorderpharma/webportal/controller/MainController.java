@@ -128,8 +128,8 @@ public class MainController {
 		log.info("in postAdHocDetails controller " + adHocModel.getLocation() + adHocModel.isPaymentStatus()
 				+ adHocModel.getQuantity());
 		ModelAndView view = new ModelAndView("refillstatus");
-		portalService.requestAdhocRefill(session, adHocModel);
-		view.addObject("msg", portalService.requestAdhocRefill( session, adHocModel));
-		return view;
+		
+//		view.addObject("msg", portalService.requestAdhocRefill( session, adHocModel));
+		return portalService.requestAdhocRefill(session, adHocModel,view);
 	}
 }

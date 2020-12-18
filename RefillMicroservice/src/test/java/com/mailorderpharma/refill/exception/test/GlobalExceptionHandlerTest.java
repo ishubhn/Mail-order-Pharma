@@ -20,9 +20,6 @@ public class GlobalExceptionHandlerTest {
 	@InjectMocks
 	GlobalExceptionHandler globalExceptionHandler;
 	
-//	@Mock
-//	InvalidTokenException invalidtokenException;
-//	
 	@Test
 	public void invalidTokenException()
 	{
@@ -45,9 +42,9 @@ public class GlobalExceptionHandlerTest {
 	}
 	
 	@Test
-	public void DrugQuantityNotAvailable()
+	public void drugQuantityNotAvailable()
 	{
-		assertEquals(globalExceptionHandler.DrugQuantityNotAvailable
+		assertEquals(globalExceptionHandler.drugQuantityNotAvailable
 				(new DrugQuantityNotAvailable("DrugQuantityNotAvailable")).getStatusCode(),HttpStatus.NOT_FOUND);
 	}
 	

@@ -1,14 +1,12 @@
 package com.mailorderpharma.drugservice.controller.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,10 +26,9 @@ import com.mailorderpharma.drugservice.dao.DrugDetailsRepository;
 import com.mailorderpharma.drugservice.dao.DrugLocationRepository;
 import com.mailorderpharma.drugservice.entity.DrugDetails;
 import com.mailorderpharma.drugservice.entity.DrugLocationDetails;
-import com.mailorderpharma.drugservice.entity.ExceptionResponse;
 import com.mailorderpharma.drugservice.entity.Stock;
+import com.mailorderpharma.drugservice.entity.SuccessResponse;
 import com.mailorderpharma.drugservice.entity.TokenValid;
-import com.mailorderpharma.drugservice.exception.DrugNotFoundException;
 import com.mailorderpharma.drugservice.restclients.AuthFeign;
 import com.mailorderpharma.drugservice.service.DrugDetailsService;
 
@@ -45,10 +42,10 @@ class DrugControllerTest {
 	@Mock
 	DrugDetailsService drugDetailsService;
 
-	@Mock
+	@Autowired
 	DrugDetailsRepository drugDetailsRepository;
 
-	@Mock
+	@Autowired
 	DrugLocationRepository drugLocationRepository;
 
 	@MockBean
@@ -85,31 +82,43 @@ class DrugControllerTest {
 		MvcResult result = mockMvc.perform(get("/searchDrugsByName/Drug1").header("Authorization", "Bearer Token"))
 				.andReturn();
 		String actualValue = result.getResponse().getContentAsString().substring(27, 32);
-		System.out.println(actualValue);
 		assertEquals(expectedValue, actualValue);
 	}
 	
 	@Test
 	public void testDispatchableDrugStock() throws Exception {
-		Stock expected = new Stock("D1","Drug1",new Date(),30);
+		Stock expectedStock = new Stock("D1","Drug1",new Date(),30);
 		ObjectMapper objectMapper = new ObjectMapper();
-		String expectedValue = objectMapper.writeValueAsString(expected).substring(69, 71);
+		String expectedValue = objectMapper.writeValueAsString(expectedStock);
 		TokenValid tokenValid = new TokenValid("uid", "uname", true);
 		ResponseEntity<TokenValid> response = new ResponseEntity<TokenValid>(tokenValid, HttpStatus.OK);
 		when(authFeign.getValidity("Bearer Token")).thenReturn(response);
-		MvcResult result = mockMvc.perform(get("/getDispatchableDrugStock/D1/Chennai").header("Authorization", "Bearer Token"))
-				.andReturn();
-		String actualValue = result.getResponse().getContentAsString().substring(87, 89);
-		assertEquals(expectedValue,actualValue);
+		when(drugDetailsService.getDispatchableDrugStock("D1", "Chennai", "Bearer token")).thenReturn(expectedStock);
+		when(drugController.getDispatchableDrugStock("Bearer token", "D1", "Chennai")).thenReturn(expectedStock);
 	}
 	
 	@Test
-	public void updateQuantity() throws Exception {
+	public void testupdateQuantity() throws Exception {
 		TokenValid tokenValid = new TokenValid("uid", "uname", true);
+		ObjectMapper objectMapper = new ObjectMapper();
+		ResponseEntity<SuccessResponse> expectedValue = new ResponseEntity<SuccessResponse>(new SuccessResponse("Refill done successfully"), HttpStatus.OK); 
 		ResponseEntity<TokenValid> response = new ResponseEntity<TokenValid>(tokenValid, HttpStatus.OK);
 		when(authFeign.getValidity("Bearer Token")).thenReturn(response);
-		MvcResult result = mockMvc.perform(put("/updateDispatchableDrugStock/D1/Chennai/1").header("Authorization", "Bearer Token"))
-				.andReturn();
-		assertEquals(200,result.getResponse().getStatus());
+		when(drugDetailsService.updateQuantity("D1", "Chennai", 1, "Bearer token")).thenReturn(expectedValue);
+		when(drugController.updateQuantity("D1", "Chennai", "Bearer token", 1)).thenReturn(expectedValue);
+	}
+	
+	@Test
+	public void testgetAllDrugs() throws Exception {
+		TokenValid tokenValid = new TokenValid("uid", "uname", true);
+		ObjectMapper objectMapper = new ObjectMapper();
+		ResponseEntity<TokenValid> response = new ResponseEntity<TokenValid>(tokenValid, HttpStatus.OK);
+		List<DrugDetails> expectedValue = new ArrayList<>();
+		list.add(new DrugLocationDetails("D1", "Chennai", 30, null));
+		DrugDetails expected = new DrugDetails("D1", "Drug1", "manu1", new Date(), new Date(), list);
+		expectedValue.add(expected);
+		when(authFeign.getValidity("Bearer Token")).thenReturn(response);
+		when(drugDetailsService.getAllDrugs()).thenReturn(expectedValue);
+		when(drugController.getAllDrugs()).thenReturn(expectedValue);
 	}
 }

@@ -34,9 +34,9 @@ public class RefillController {
 
 	@RequestMapping(path = "/viewRefillStatus/{sub_id}", method = RequestMethod.GET)
 	public ResponseEntity<List<RefillOrder>> viewRefillStatus(@RequestHeader("Authorization") String token,
-			@PathVariable("sub_id") long sub_id) throws SubscriptionIdNotFoundException, InvalidTokenException {
+			@PathVariable("subId") long subId) throws SubscriptionIdNotFoundException, InvalidTokenException {
 		log.info("Inside Refill Controller viewRefillStatus method");
-		return ResponseEntity.ok().body(service.getStatus(sub_id, token));
+		return ResponseEntity.ok().body(service.getStatus(subId, token));
 	}
 
 	@RequestMapping(path = "/getRefillDuesAsOfDate/{memberId}/{date}", method = RequestMethod.GET)
@@ -55,25 +55,25 @@ public class RefillController {
 		return ResponseEntity.ok().body(service.getRefillDuesAsOfPayment(subscriptionId, token));
 	}
 
-	@RequestMapping(path = "/requestAdhocRefill/{sub_id}/{pay_status}/{quantity}/{location}", method = RequestMethod.POST)
+	@RequestMapping(path = "/requestAdhocRefill/{subId}/{payStatus}/{quantity}/{location}", method = RequestMethod.POST)
 	public ResponseEntity<RefillOrder> requestAdhocRefill(@RequestHeader("Authorization") String token,
-			@PathVariable("sub_id") Long i, @PathVariable("pay_status") Boolean pay_status,
+			@PathVariable("subId") long i, @PathVariable("payStatus") Boolean payStatus,
 			@PathVariable("quantity") int quantity, @PathVariable("location") String location)
 			throws ParseException, FeignException, InvalidTokenException, DrugQuantityNotAvailable {
 		log.info("Inside Refill Controller requestAdhocRefill method");
 
-		return ResponseEntity.accepted()
-				.body(service.requestAdhocRefill(i, pay_status, quantity, location, token));
-	}
+		return ResponseEntity.accepted() 
+				.body(service.requestAdhocRefill(i, payStatus, quantity, location, token));
+	} 
 
-	@RequestMapping(path = "/requestRefillSubscription/{sub_id}/{memberId}/{quantity}/{time}", method = RequestMethod.POST)
+	@RequestMapping(path = "/requestRefillSubscription/{subId}/{memberId}/{quantity}/{time}", method = RequestMethod.POST)
 	public ResponseEntity<RefillOrderSubscription> requestRefillSubscription(
-			@RequestHeader("Authorization") String token, @PathVariable("sub_id") long sub_id,
+			@RequestHeader("Authorization") String token, @PathVariable("subId") long subId,
 			@PathVariable("memberId") String memberId, @PathVariable("quantity") int quantity,
 			@PathVariable("time") int time) throws ParseException, InvalidTokenException {
 		log.info("Inside Refill Controller requestRefillSubscription method");
 		return ResponseEntity.accepted().body(
-				refillOrderSubscriptionService.UpdateRefillOrderSubscription(sub_id, memberId, quantity, time, token));
+				refillOrderSubscriptionService.updateRefillOrderSubscription(subId, memberId, quantity, time, token));
 	}
 
 	@RequestMapping(path = "/viewRefillOrderSubscriptionStatus", method = RequestMethod.GET)

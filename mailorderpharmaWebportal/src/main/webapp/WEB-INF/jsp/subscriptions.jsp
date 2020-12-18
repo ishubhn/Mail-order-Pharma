@@ -61,7 +61,7 @@
 		<div class="container">
 
 			<div id="logo" class="pull-left">
-				<a href="welcome">Mail Order Pharmacy</a>
+				<a href="home">Mail Order Pharmacy</a>
 				<!-- Uncomment below if you prefer to use a text logo -->
 				<!--<h1><a href="#hero">Regna</a></h1>-->
 			</div>
@@ -72,8 +72,8 @@
 					<li><a href="prescriptionform">Subscribe</a></li>
 					<li><a href="supportedDrugs">Supported drugs</a></li>
 					<li><a href="subscriptions">Subscribed medicines</a></li>
-					<li><a href="#due-for-refill">Due for refill</a></li>
-					<li><a href="#ad-hoc-requests">Request now</a></li>
+					<li><a href="home#due-for-refill">Due for refill</a></li>
+					<li><a href="subscriptions">Request now</a></li>
 					<li><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
@@ -108,13 +108,9 @@
 												${subscription.memberLocation }</p>
 											<form method=post
 												action="unsubscribe/${subscription.subscriptionId }">
-												<a class="btn btn-primary"><input type=submit
-													value="Unsubscribe"></a>
-											</form>
-											<form method=get
-												action="adhocRefill/${subscription.subscriptionId}">
-												<a class="btn btn-primary"><input type=submit
-													value="Request for Refill"></a>
+												<input class="btn btn-primary" type=submit
+													value="Unsubscribe">
+													<a class="btn btn-primary" href="adhocRefill/${subscription.subscriptionId}"> Request refill</a>
 											</form>
 										</div>
 									</div>

@@ -49,7 +49,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 	private AuthFeign authFeign;
 
 	@Override
-	public List<RefillOrder> getStatus(long sub_id, String token)
+	public List<RefillOrder> getStatus(long subId, String token)
 			throws SubscriptionIdNotFoundException, InvalidTokenException {
 
 		log.info("inside getStatus method");
@@ -58,7 +58,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 			List<RefillOrder> finallist = null;
 			try {
 				list = (ArrayList<RefillOrder>) refillOrderRepository.findAll();
-				finallist = list.stream().filter(p -> p.getSub_id() == sub_id).collect(Collectors.toList());
+				finallist = list.stream().filter(p -> p.getSubId() == subId).collect(Collectors.toList());
 				finallist.get(0);
 			} catch (Exception ex) {
 				throw new SubscriptionIdNotFoundException("Subscription ID is invalid");
@@ -83,8 +83,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 
 			int userTime = date;
 
-			List<RefillOrderSubscription> members = memberList.stream().filter(p -> userTime % p.getRefillTime() == 0
-					|| userTime % p.getRefillTime() == 1 || userTime % p.getRefillTime() == p.getRefillTime() - 1)
+			List<RefillOrderSubscription> members = memberList.stream().filter(p -> userTime % p.getRefillTime() != 0)
 					.collect(Collectors.toList());
 
 			return members;
@@ -94,7 +93,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 	}
 
 	@Override
-	public RefillOrder requestAdhocRefill(Long sub_id, Boolean pay_status, int quantity, String location, String token)
+	public RefillOrder requestAdhocRefill(Long subId, Boolean payStatus, int quantity, String location, String token)
 			throws ParseException, FeignException, InvalidTokenException, DrugQuantityNotAvailable {
 
 		log.info("inside requestAdhocRefill method");
@@ -102,33 +101,32 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 		// add the name from subscription microservice pending
 
 		if (authFeign.getValidity(token).isValid()) {
-			ResponseEntity<String> entityname = subscriptionClient.getDrugNameBySubscriptionId(sub_id, token);
+			ResponseEntity<String> entityname = subscriptionClient.getDrugNameBySubscriptionId(subId, token);
 
 			String name = entityname.getBody();
-			log.info("drugname " + name);
+			log.info("drugname ");
 			
 			//change this qs mark to appropriate type 
 			ResponseEntity<?> responseEntity =  drugDetailClient.updateQuantity(token,
 					name, location, quantity);
 			log.info("updated");
 			int responsevalue = responseEntity.getStatusCodeValue();
-			log.info("staus val " + responsevalue);
+			log.info("staus val");
 			if (responsevalue == 200) {
 				// checking drug availability then if yes
 				RefillOrder refillOrder = new RefillOrder();
-				refillOrder.setSub_id(sub_id);
+				refillOrder.setSubId(subId);
 				Date date = new Date();
 				DateFormat format = new SimpleDateFormat("dd-MM-yyyy  hh:mm:ss");
 				String str = format.format(date);
 				refillOrder.setRefilledDate(format.parse(str));
 				refillOrder.setQuantity(quantity);
-				refillOrder.setPay_status(pay_status);
+				refillOrder.setPayStatus(payStatus);
 
 				refillOrderRepository.save(refillOrder);
 				log.info("refiloredr sabed");
 				return refillOrder;
 			} else {
-				log.info("not 200"+entityname.getBody());
 				throw new DrugQuantityNotAvailable("DrugQuantityNotAvailable");
 
 			}
@@ -137,19 +135,19 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 	}
 
 	@Override
-	public RefillOrder requestRefill(long sub_id, int quantity, String memberId, String token)
+	public RefillOrder requestRefill(long subId, int quantity, String memberId, String token)
 			throws ParseException, InvalidTokenException {
 		log.info("inside requestRefill method");
 
 		if (authFeign.getValidity(token).isValid()) {
 			RefillOrder refillOrder = new RefillOrder();
-			refillOrder.setSub_id(sub_id);
+			refillOrder.setSubId(subId);
 			Date date = new Date();
 			DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 			String str = format.format(date);
 			refillOrder.setRefilledDate(format.parse(str));
 			refillOrder.setQuantity(quantity);
-			refillOrder.setPay_status(true);
+			refillOrder.setPayStatus(true);
 			refillOrder.setMemberId(memberId);
 			refillOrderRepository.save(refillOrder);
 
@@ -165,8 +163,8 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 		if (authFeign.getValidity(token).isValid()) {
 			List<RefillOrder> list = refillOrderRepository.findAll();
 
-			List<RefillOrder> paymentDueList = list.stream().filter(p -> p.getSub_id() == subscriptionId)
-					.filter(p -> (!p.getPay_status())).collect(Collectors.toList());
+			List<RefillOrder> paymentDueList = list.stream().filter(p -> p.getSubId() == subscriptionId)
+					.filter(p -> (!p.getPayStatus())).collect(Collectors.toList());
 
 			if (paymentDueList.size() == 0) {
 				return true;
@@ -179,7 +177,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 	}
 
 	@Override
-	public String UpdateRefill(String token) throws InvalidTokenException {
+	public String updateRefill(String token) throws InvalidTokenException {
 		log.info("inside UpdateRefill method");
 
 		if (authFeign.getValidity(token).isValid()) {
@@ -198,7 +196,6 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 								try {
 									requestRefill(l.getSubscriptionId(), l.getRefillQuantity(), l.getMemberId(), token);
 								} catch (ParseException | InvalidTokenException e) {
-									e.printStackTrace();
 								}
 							}
 						}
@@ -207,7 +204,7 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 			}
 
 			catch (Exception e) {
-				log.info("Exception inside UpdateRefill:" + e);
+				log.info("Exception inside UpdateRefill:");
 			}
 
 			return "sucess";
@@ -224,9 +221,9 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 			TimerTask tt = new TimerTask() {
 				public void run() {
 					try {
-						UpdateRefill(token);
+						updateRefill(token);
 					} catch (Exception e) {
-						log.info("Exception inside StartTimer: " + e);
+						log.info("Exception inside StartTimer:");
 					}
 				}
 			};

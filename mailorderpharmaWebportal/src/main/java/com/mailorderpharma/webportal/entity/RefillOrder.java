@@ -26,7 +26,7 @@ public class RefillOrder {
 	long id;
 	@JsonFormat(pattern="dd-MM-yyyy hh:mm:ss")
 	Date refilledDate;
-	Boolean pay_status;
+	Boolean payStatus;
 	long sub_id;
 	int quantity;
 	String memberId;

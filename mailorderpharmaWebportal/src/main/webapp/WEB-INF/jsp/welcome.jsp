@@ -46,9 +46,9 @@
       <nav id="nav-menu-container">
         <ul class="nav-menu">
           <li class="menu-active"><a href="home">Home</a></li>
-          <li><a href="prescriptionform">Subscribe</a></li>
-          <li><a href="supportedDrugs">Supported drugs</a></li>
-          <li><a href="subscriptions">Subscribed medicines</a></li>
+          <li><a href="#subscribe">Subscribe</a></li>
+          <li><a href="#services">Supported drugs</a></li>
+          <li><a href="#view-subscribed-drugs">Subscribed medicines</a></li>
           <li><a href="#due-for-refill">Due for refill</a></li>
           <li><a href="#ad-hoc-requests">Request now</a></li>
           <li><a href="">Logout</a></li>
@@ -142,7 +142,7 @@
         </div>
         <div class="md-form md-bg input-with-pre-icon">
           <form name="getSupportedDrugs" method="post" action="supportedDrugs">
-            <center><button type="submit" class="btn btn-outline-success btn-lg ">Submit</button></center>
+            <center><button type="submit" class="btn btn-outline-success btn-lg ">Explore</button></center>
           </form>
          </div> 
         </div>

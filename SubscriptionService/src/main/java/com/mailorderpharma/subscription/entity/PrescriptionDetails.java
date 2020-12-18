@@ -13,17 +13,20 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class PrescriptionDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long PrescriptionId;
+	private Long prescriptionId;
+	
 	private String memberId;
 	@NotEmpty(message = "Location cannot be empty")
 	@Pattern(regexp = "[A-z]+",message = "Location must contain only Alphabets")

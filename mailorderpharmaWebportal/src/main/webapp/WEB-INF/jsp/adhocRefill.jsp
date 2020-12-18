@@ -49,13 +49,12 @@
 
 			<nav id="nav-menu-container">
 				<ul class="nav-menu">
-					<li class="menu-active"><a href="welcome">Home</a></li>
-					<li><a href="welcome#subscribe">Subscribe</a></li>
-					<li><a href="welcome#services">Supported drugs</a></li>
-					<li><a href="welcome#view-subscribed-drugs">Subscribed
-							medicines</a></li>
-					<li><a href="welcome#due-for-refill">Due for refill</a></li>
-					<li><a href="welcome#ad-hoc-requests">Request now</a></li>
+					<li class="menu-active"><a href="home">Home</a></li>
+					<li><a href="prescriptionform">Subscribe</a></li>
+					<li><a href="supportedDrugs">Supported drugs</a></li>
+					<li><a href="subscriptions">Subscribed medicines</a></li>
+					<li><a href="home#due-for-refill">Due for refill</a></li>
+					<li><a href="subscriptions">Request now</a></li>
 					<li><a href="logout">Logout</a></li>
 				</ul>
 			</nav>

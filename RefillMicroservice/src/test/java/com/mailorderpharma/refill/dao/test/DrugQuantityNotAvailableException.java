@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class DrugQuantityNotAvailableException {
 	
 	@Test
-	void DrugQuantityNotAvailableException()
+	void drugQuantityNotAvailableException()
 	{
 		DrugQuantityNotAvailableException drugQuantityNotAvailableException = new DrugQuantityNotAvailableException();
 		

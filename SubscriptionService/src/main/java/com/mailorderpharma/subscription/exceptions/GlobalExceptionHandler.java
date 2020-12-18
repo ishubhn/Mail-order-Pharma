@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 	public  ResponseEntity<ErrorMessage> subscriptionListEmptyException(SubscriptionListEmptyException subscriptionListEmptyException) {
 		return new ResponseEntity<ErrorMessage>(
 				new ErrorMessage(HttpStatus.NOT_FOUND, LocalDateTime.now(), subscriptionListEmptyException.getMessage()),
-				HttpStatus.NO_CONTENT);
+				HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(feign.RetryableException.class)
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 	public ErrorMessage serviceUnavailableException() {
 		return new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, LocalDateTime.now(), "Temporarily service unavailable");
 	}
-
+	
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> constraintValidationException(ConstraintViolationException constraintViolationException)
@@ -52,4 +52,5 @@ public class GlobalExceptionHandler {
 																			,errorMessages));
 		
 	}
+
 }

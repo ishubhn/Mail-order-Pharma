@@ -23,14 +23,14 @@ public class RefillOrderSubscriptionServiceImpl implements RefillOrderSubscripti
 	private AuthFeign authFeign;
 
 	@Override
-	public RefillOrderSubscription UpdateRefillOrderSubscription(long Sub_id, String memberId, int quantity, int time,
+	public RefillOrderSubscription updateRefillOrderSubscription(long subId, String memberId, int quantity, int time,
 			String token) throws InvalidTokenException {
 
 		log.info("inside UpdateRefillOrderSubscription method");
 
 		if (authFeign.getValidity(token).isValid()) {
 			RefillOrderSubscription refillOrderSubscription = new RefillOrderSubscription();
-			refillOrderSubscription.setSubscriptionId(Sub_id);
+			refillOrderSubscription.setSubscriptionId(subId);
 			refillOrderSubscription.setRefillTime(time);
 			refillOrderSubscription.setRefillQuantity(quantity);
 			refillOrderSubscription.setMemberId(memberId);

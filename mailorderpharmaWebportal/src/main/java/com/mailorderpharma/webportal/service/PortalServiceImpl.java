@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.mailorderpharma.webportal.entity.AdHocModel;
 import com.mailorderpharma.webportal.entity.AuthResponse;
@@ -97,19 +98,19 @@ public class PortalServiceImpl implements PortalService {
 	public String getSupportedDrugs(HttpSession session, ModelMap modelMap) {
 		try {
 			String token = (String) session.getAttribute("token");
-			System.out.println("1");
 			authResponse = authClient.getValidity(token);
+		} catch (ExpiredJwtException e) {
+			modelMap.addAttribute("Warning", "Please login again");
+			return "redirect:/";
+		}
+		try {
 			log.info("2");
 			List<DrugDetails> drugList = drugClient.getAllDrugs();
-			System.out.println("3");
 			modelMap.addAttribute("drugList", drugList);
 			log.info("4");
 		}
 
-		catch (ExpiredJwtException e) {
-			modelMap.addAttribute("Warning", "Please login again");
-			return "redirect:/";
-		} catch (NullPointerException e) {
+		catch (NullPointerException e) {
 			modelMap.addAttribute("Warning", "Null Pointer");
 			return "redirect:/";
 		}
@@ -141,10 +142,10 @@ public class PortalServiceImpl implements PortalService {
 	}
 
 	public List<SubscriptionDetails> getSubscriptions(HttpSession session, Model model) {
-		List<SubscriptionDetails> subscriptionList=null;
+		List<SubscriptionDetails> subscriptionList = null;
 		try {
-			subscriptionList = subscriptionClient.getAllSubscriptionsforMember(
-					(String) session.getAttribute("token"), (String) session.getAttribute("memberId"));
+			subscriptionList = subscriptionClient.getAllSubscriptionsforMember((String) session.getAttribute("token"),
+					(String) session.getAttribute("memberId"));
 
 			log.info(subscriptionList.toString());
 
@@ -160,6 +161,7 @@ public class PortalServiceImpl implements PortalService {
 		return subscriptionList;
 
 	}
+
 	@Override
 	public String postSubscriptions(HttpSession session, Model model) {
 		try {
@@ -188,10 +190,10 @@ public class PortalServiceImpl implements PortalService {
 	}
 
 	@Override
-	public String getRefillDueAsofDate( HttpSession session, DateModel dateModel, Model model)
+	public String getRefillDueAsofDate(HttpSession session, DateModel dateModel, Model model)
 			throws NumberFormatException, InvalidTokenException {
 		List<RefillOrderSubscription> refillOrderSubscriptions = null;
-		String token=(String) session.getAttribute("token");
+		String token = (String) session.getAttribute("token");
 		try {
 			authResponse = authClient.getValidity(token);
 		} catch (Exception e) {
@@ -201,32 +203,37 @@ public class PortalServiceImpl implements PortalService {
 		DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
 		String str = format.format(dateModel.getDate());
 		try {
-			refillOrderSubscriptions = refillClient.getRefillDuesAsOfDate(token, (String) session.getAttribute("memberId"),
-					Integer.parseInt(str.substring(8, 10))).getBody();
-			
-		}catch(Exception e) {
+			refillOrderSubscriptions = refillClient.getRefillDuesAsOfDate(token,
+					(String) session.getAttribute("memberId"), Integer.parseInt(str.substring(8, 10))).getBody();
+			log.info("refillOrderSubscriptions " + refillOrderSubscriptions.toString());
+		} catch (Exception e) {
 			log.info("hey" + e.getClass().toString());
-			if (e.getClass().toString().contains("feign.RetryableException")|| e.getClass().toString().contains("UndeclaredThrowableException")) {
+			if (e.getClass().toString().contains("feign.RetryableException")
+					|| e.getClass().toString().contains("UndeclaredThrowableException")) {
 				model.addAttribute("msg", "Service is Temporarily down. Try again later.");
 				return "refillDueAsofDate";
-			}
-			else {
+			} else {
 				model.addAttribute("msg", "Something went wrong. Try again later.");
 				return "refillDueAsofDate";
 			}
 		}
-			List<RefillDueResponse> refillDueList=getDrugNamesBySubId(refillOrderSubscriptions, token, session,model);
-			if(refillDueList==null)
-				model.addAttribute("msg", "Sit back and relax, there are no refill dues.");
-			else
-				model.addAttribute("refillDues", refillOrderSubscriptions);
+		List<RefillDueResponse> refillDueList = getDrugNamesBySubId(refillOrderSubscriptions, token, session, model);
+		if (refillDueList == null || refillDueList.isEmpty())
+			model.addAttribute("msg", "Sit back and relax, there are no refill dues.");
+		else
+			model.addAttribute("refillResponses", refillDueList);
+		for (RefillDueResponse r : refillDueList) {
+			log.info("refillDues--------" + r.getDrugName());
+		}
+
 //		return getDrugNamesBySubId(refillOrderSubscriptions, token, session,model);
 		return "refillDueAsofDate";
 	}
 
 	@Override
-	public RefillOrder requestAdhocRefill(HttpSession session, AdHocModel adHocModel) throws NumberFormatException,
-			FeignException, ParseException, InvalidTokenException, DrugQuantityNotAvailable {
+	public ModelAndView requestAdhocRefill(HttpSession session, AdHocModel adHocModel, ModelAndView view)
+			throws NumberFormatException, FeignException, ParseException, InvalidTokenException,
+			DrugQuantityNotAvailable {
 
 		try {
 			authResponse = authClient.getValidity((String) session.getAttribute("token"));
@@ -234,24 +241,32 @@ public class PortalServiceImpl implements PortalService {
 			log.info("hey" + e.getClass().toString());
 //			return "redirect:/";
 		}
-		RefillOrder refillOrder=null;
+		RefillOrder refillOrder = null;
 		try {
 			refillOrder = refillClient
-				.requestAdhocRefill((String) session.getAttribute("token"), ((long) session.getAttribute("sub_Id")),
-						adHocModel.isPaymentStatus(), adHocModel.getQuantity(), adHocModel.getLocation())
-				.getBody();
-		}catch(Exception e) {
-			log.info(e.getClass().toString()+" clas---  msg "+e.getMessage());
+					.requestAdhocRefill((String) session.getAttribute("token"), ((long) session.getAttribute("sub_Id")),
+							adHocModel.isPaymentStatus(), adHocModel.getQuantity(), adHocModel.getLocation())
+					.getBody();
+			log.info("service method requestadhoc after feign"+refillOrder.getPayStatus());
+		} catch (Exception e) {
+			log.info(e.getClass().toString() + " clas---  msg " + e.getMessage());
+//			view.addObject("ackmsg", "cannot request refill.Try again later.");
 		}
-		return refillOrder;
+		if (refillOrder == null)
+			view.addObject("ackmsg", "Sorry request is not valid.");
+		else
+			view.addObject("ackmsg", "Order placed successfully");
+		
+		view.addObject("msg", refillOrder);
+		return view;
 	}
 
 	public List<RefillDueResponse> getDrugNamesBySubId(List<RefillOrderSubscription> refillOrderSubscription,
 			String token, HttpSession session, Model model) {
 		List<String> drugNames = new ArrayList<>();
 		List<RefillDueResponse> refillResponses = new ArrayList<>();
-		List<SubscriptionDetails> details = getSubscriptions(session,model);
-		if(details==null)
+		List<SubscriptionDetails> details = getSubscriptions(session, model);
+		if (details == null)
 			return null;
 		for (SubscriptionDetails s : details) {
 			drugNames.add(subscriptionClient.getDrugNameBySubscriptionId(token, s.getSubscriptionId()));
@@ -274,7 +289,5 @@ public class PortalServiceImpl implements PortalService {
 		}
 		return refillResponses;
 	}
-
-	
 
 }

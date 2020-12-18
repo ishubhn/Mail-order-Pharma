@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.mailorderpharma.webportal.entity.AdHocModel;
 import com.mailorderpharma.webportal.entity.DateModel;
@@ -31,7 +32,7 @@ public interface PortalService {
 
 	String getSupportedDrugs(HttpSession session, ModelMap modelMap);
 
-	RefillOrder requestAdhocRefill(HttpSession session, AdHocModel adHocModel) throws NumberFormatException,
+	ModelAndView requestAdhocRefill(HttpSession session, AdHocModel adHocModel, ModelAndView view) throws NumberFormatException,
 			FeignException, ParseException, InvalidTokenException, DrugQuantityNotAvailable;
 
 	String postSubscriptions(HttpSession session, Model model);

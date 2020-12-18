@@ -27,15 +27,15 @@ public class RefillOrderTest {
 	}
 
 	@Test
-	void testPay_Status() {
-		refillOrder.setPay_status(true);
-		assertEquals(true, refillOrder.getPay_status());
+	void testPayStatus() {
+		refillOrder.setPayStatus(true);
+		assertEquals(true, refillOrder.getPayStatus());
 	}
 
 	@Test
-	void testSub_id() {
-		refillOrder.setSub_id(1);
-		assertEquals(1, refillOrder.getSub_id());
+	void testSubId() {
+		refillOrder.setSubId(1);
+		assertEquals(1, refillOrder.getSubId());
 	}
 
 	@Test
