@@ -36,13 +36,6 @@
 
 <!-- Template Main CSS File -->
 <link href="style/style.css" rel="stylesheet">
-
-<!-- =======================================================
-  * Template Name: Regna - v2.2.0
-  * Template URL: https://bootstrapmade.com/regna-bootstrap-onepage-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 <body>
 
@@ -73,52 +66,63 @@
 	<!-- End Header -->
 	<section id="services">
 		<div class="container">
-			<br>
-			<br>
+			<br> <br>
 			<h3>Prescription details</h3>
 			<form name="prescriptionform" model="prescriptionDetails"
-				method="post" action="subscribe">
+				method="post"  onsubmit="return validate()" action="subscribe">
 
 				<div class="form-group">
 					<label for="insuranceProvider">Insurance Provider</label> <input
 						type="text" class="form-control" name="insuranceProvider"
-						placeholder="">
+						id="insuranceProvider" placeholder=""> <span
+						class="text-danger" id="insuranceProviderSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="policyNumber">Policy Number</label> <input type="text"
-						class="form-control" name="policyNumber" placeholder="">
+						class="form-control" name="policyNumber" id="policyNumber"
+						placeholder=""> <span class="text-danger"
+						id="policyNumberSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="doctorName">Doctor Name</label> <input type="text"
-						class="form-control" name="doctorName"
-						placeholder="Enter Doctor name">
+						class="form-control" name="doctorName" id="doctorName"
+						placeholder="Enter Doctor name"> <span class="text-danger"
+						id="doctorNameSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="prescriptionDate">Prescription Date</label> <input
 						type="date" class="form-control" name="prescriptionDate"
-						placeholder="Date">
+						id="prescriptionDate" placeholder="Date"> <span
+						class="text-danger" id="prescriptionDateSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="Location">Your Location</label> <input type="text"
-						class="form-control" name="memberLocation" placeholder="">
+						class="form-control" name="memberLocation" id="memberLocation"
+						placeholder="Enter your location"> <span class="text-danger"
+						id="memberLocationSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="drugName">Medicine Name</label> <input type="text"
-						class="form-control" name="drugName" placeholder="">
+						class="form-control" name="drugName" id="drugName" placeholder="">
+					<span class="text-danger" id="drugNameSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="dosageDefinition">Dosage Definitions</label> <input
 						type="text" class="form-control" name="dosageDefinition"
-						placeholder="">
+						id="dosageDefinition" placeholder=""> <span
+						class="text-danger" id="dosageDefinitionSpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="quantity">Quantity</label> <input type="number"
-						class="form-coquantityntrol" name="quantity" placeholder="">
+						class="form-coquantityntrol" name="quantity" id="quantity"
+						placeholder=""> <span class="text-danger"
+						id="quantitySpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="courseDuration">Course Duration</label> <input
 						type="number" class="form-coquantityntrol" name="courseDuration"
-						placeholder="">
+						id="courseDuration" placeholder=""> <span
+						class="text-danger" id="courseDurationSpan"></span>
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
@@ -147,5 +151,6 @@
 
 	<!-- Template Main JS File -->
 	<script src="js/main.js"></script>
+	<script src="js/Prescription.js"></script>
 </body>
 </html>

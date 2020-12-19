@@ -98,7 +98,7 @@
 										<div class="card-body">
 											<h5 class="card-title">${subscription.drugName }</h5>
 											<p class="card-text">Quantity: ${subscription.quantity }</p>
-											<p class="card-text">Refill Cycle Period:
+											<p class="card-text">Refill Cycle (days):
 												${subscription.refillCycle }</p>
 											<p class="card-text">Subscription Date:
 												${subscription.subscriptionDate }</p>

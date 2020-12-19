@@ -39,7 +39,7 @@ public class PrescriptionDetails {
 	private String policyNumber;
 	
 	@NotEmpty(message = "Insurance Provider cannot be empty")
-	@Pattern(regexp = "[a-zA-Z]+",message = "Insurance Provider must contain only Alphabets")
+	@Pattern(regexp = "[a-zA-Z ]+",message = "Insurance Provider must contain only Alphabets")
 	@Size(min = 1,max = 20)
 	private String insuranceProvider;
 	
@@ -62,7 +62,7 @@ public class PrescriptionDetails {
 	private int courseDuration;
 	
 	@NotEmpty(message = "DoctorName cannot be empty")
-	@Pattern(regexp = "[A-z]+",message = "DoctorName must contain only Alphabets")
+	@Pattern(regexp = "[A-z ]+",message = "DoctorName must contain only Alphabets")
 	@Size(min = 1,max = 20)
 	private String doctorName;
 

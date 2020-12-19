@@ -136,7 +136,7 @@ public class PortalServiceImpl implements PortalService {
 					|| e.getClass().toString().contains("UndeclaredThrowableException"))
 				msg = "Service is Temporarily down. Try again later.";
 			else if (e.getMessage().toString().contains("Content is not available"))
-				msg = "Drug is not available";
+				msg = "Currently we do not support this Medicine.";
 		}
 		return msg;
 	}
@@ -172,7 +172,7 @@ public class PortalServiceImpl implements PortalService {
 		}
 		log.info("token validation success");
 		getSubscriptions(session, model);
-		return null;
+		return "subscriptions";
 	}
 
 	@Override
