@@ -50,8 +50,8 @@
           <li><a href="#services">Supported drugs</a></li>
           <li><a href="#view-subscribed-drugs">Subscribed medicines</a></li>
           <li><a href="#due-for-refill">Due for refill</a></li>
-          <li><a href="#ad-hoc-requests">Request now</a></li>
-          <li><a href="">Logout</a></li>
+          <li><a href="#ad-hoc-request">Request now</a></li>
+          <li><a href="logout">Logout</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
