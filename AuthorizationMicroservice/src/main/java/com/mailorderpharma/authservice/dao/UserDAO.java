@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.mailorderpharma.authservice.entity.UserData;
 
+
+/**JPA Repository which interacts with database*/
 @Repository
 public interface UserDAO extends JpaRepository<UserData, String> {
 

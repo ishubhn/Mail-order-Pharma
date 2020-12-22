@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mailorderpharma.refill.entity.ExceptionResponse;
 
+/**Class to handle all exceptions*/
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+	/**
+	 * @param invalidTokenException
+	 * @return
+	 */
 	@ExceptionHandler(InvalidTokenException.class)
 	public ResponseEntity<ExceptionResponse> invalidTokenException(InvalidTokenException invalidTokenException) {
 		return new ResponseEntity<ExceptionResponse>(
@@ -22,6 +27,10 @@ public class GlobalExceptionHandler {
 				HttpStatus.UNAUTHORIZED);
 	}
 	
+	/**
+	 * @param subscriptionException
+	 * @return
+	 */
 	@ExceptionHandler(SubscriptionIdNotFoundException.class)
 	public ResponseEntity<ExceptionResponse> subscriptionIdNotFoundException(SubscriptionIdNotFoundException subscriptionException) {
 		return new ResponseEntity<ExceptionResponse>(
@@ -29,6 +38,10 @@ public class GlobalExceptionHandler {
 				HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * @param serviceUnavailableException
+	 * @return
+	 */
 	@ExceptionHandler(feign.RetryableException.class)
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 	public ResponseEntity<ExceptionResponse>  serviceUnavailableException(ServiceUnavailableException serviceUnavailableException) {
@@ -36,6 +49,10 @@ public class GlobalExceptionHandler {
 				new ExceptionResponse("Temporarily service unavailable", LocalDateTime.now(),HttpStatus.SERVICE_UNAVAILABLE),HttpStatus.SERVICE_UNAVAILABLE);
 	}
 	
+	/**
+	 * @param drugException
+	 * @return
+	 */
 	@ExceptionHandler(DrugQuantityNotAvailable.class)
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 	public ResponseEntity<ExceptionResponse>  drugQuantityNotAvailable(DrugQuantityNotAvailable drugException) {

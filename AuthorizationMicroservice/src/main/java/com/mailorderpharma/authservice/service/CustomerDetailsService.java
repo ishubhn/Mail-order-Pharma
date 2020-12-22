@@ -12,15 +12,20 @@ import org.springframework.stereotype.Service;
 import com.mailorderpharma.authservice.dao.UserDAO;
 import com.mailorderpharma.authservice.entity.UserData;
 
+/**Service class*/
 @Service
 public class CustomerDetailsService implements UserDetailsService {
 	@Autowired
 	private UserDAO userdao;
 
+	/**
+	 * @param String
+	 * @return User 
+	 * @throws UsernameNotFoundException
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String uid) {
 		
-		System.out.println("inside");
 		try
 		{
 			UserData custuser = userdao.findById(uid).orElse(null);
@@ -28,7 +33,6 @@ public class CustomerDetailsService implements UserDetailsService {
 			return new User(custuser.getUserid(), custuser.getUpassword(), new ArrayList<>());
 		}
 		catch (Exception e) {
-			System.out.println("inside");
 			throw new UsernameNotFoundException("UsernameNotFoundException");
 		}
 			

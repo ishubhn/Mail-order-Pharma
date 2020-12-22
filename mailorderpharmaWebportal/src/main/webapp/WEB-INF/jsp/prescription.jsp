@@ -126,7 +126,7 @@
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
-			<h1>${msg}</h1>
+			<h3>${msg}</h3>
 		</div>
 	</section>
 	<!-- ======= Footer ======= -->

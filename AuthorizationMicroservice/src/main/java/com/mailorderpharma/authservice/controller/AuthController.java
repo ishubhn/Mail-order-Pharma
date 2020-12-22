@@ -17,9 +17,12 @@ import com.mailorderpharma.authservice.entity.AuthResponse;
 import com.mailorderpharma.authservice.entity.UserData;
 import com.mailorderpharma.authservice.service.CustomerDetailsService;
 import com.mailorderpharma.authservice.service.JwtUtil;
-import com.mailorderpharma.authservice.service.UnauthorizedException;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Api(produces = "application/json", value = "Creating and validating the Jwt token")
 public class AuthController {
 
 	@Autowired
@@ -31,15 +34,18 @@ public class AuthController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
+	@ApiOperation(value = "AWS health check", response = ResponseEntity.class)
 	@RequestMapping(path = "/health", method = RequestMethod.GET)
 	public ResponseEntity<?> healthCheckup() {
+		//Health check for AWS
 		LOGGER.info("AWS Health Check ");
 		return new ResponseEntity<>("", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Verify credentials and generate JWT Token", response = ResponseEntity.class)
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestBody UserData userlogincredentials) {
-
+		//Generates token for login
 		final UserDetails userdetails = custdetailservice.loadUserByUsername(userlogincredentials.getUserid());
 		String uid = "";
 		String generateToken = "";
@@ -54,9 +60,10 @@ public class AuthController {
 		}
 	}
 
+	@ApiOperation(value = "Validate JWT Token", response = ResponseEntity.class)
 	@RequestMapping(value = "/validate", method = RequestMethod.GET)
 	public ResponseEntity<?> getValidity(@RequestHeader("Authorization") final String token) {
-		System.out.println(token);
+		//Returns response after Validating received token
 		String token1 = token.substring(7);
 		AuthResponse res = new AuthResponse();
 		if (jwtutil.validateToken(token1)) {
@@ -69,8 +76,7 @@ public class AuthController {
 			LOGGER.error("Token Has Expired");
 		}
 		return new ResponseEntity<>(res, HttpStatus.OK);
-		
-		
+
 	}
 
 }

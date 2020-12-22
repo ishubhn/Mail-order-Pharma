@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**Model class for the business details*/
 @Entity
 @Getter
 @Setter
@@ -20,13 +21,31 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DrugDetails {
 
+	/**
+	 * Id for the drug 
+	 */
 	@Id
 	private String drugId;
+	/**
+	 * Name of the drug
+	 */
 	private String drugName;
+	/**
+	 * name of the manufacturer
+	 */
 	private String manufacturer;
+	/**
+	 * Manufacture date
+	 */
 	private Date manufactureDate;
+	/**
+	 * Expiry date
+	 */
 	private Date expiryDate;
 
+	/**
+	 * List of drug locations and quantities in location
+	 */
 	@OneToMany(mappedBy="drugDetails")
 	private List<DrugLocationDetails> druglocationQuantities = new ArrayList<DrugLocationDetails>();
 }

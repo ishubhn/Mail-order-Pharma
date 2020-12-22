@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**Model class for the business details*/
 @Getter
 @Setter
 @AllArgsConstructor

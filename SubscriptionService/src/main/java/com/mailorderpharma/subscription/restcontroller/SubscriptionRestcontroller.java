@@ -2,8 +2,6 @@ package com.mailorderpharma.subscription.restcontroller;
 
 import java.util.List;
 
-import javax.validation.ConstraintViolationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,23 +16,27 @@ import com.mailorderpharma.subscription.entity.SubscriptionDetails;
 import com.mailorderpharma.subscription.exceptions.InvalidTokenException;
 import com.mailorderpharma.subscription.services.SubscriptionService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@Api(produces = "application/json", value="Manages subscriptions and unsubscriptions")
 public class SubscriptionRestcontroller {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
 
+	@ApiOperation(value = "Subscribes to the service", response = ResponseEntity.class)
 	@PostMapping("/subscribe")
 	public ResponseEntity<?> subscribe(@RequestHeader("Authorization") String token,
-			@RequestBody PrescriptionDetails prescriptionDetails)
-			throws InvalidTokenException, ConstraintViolationException {
+			@RequestBody PrescriptionDetails prescriptionDetails) throws InvalidTokenException {
 		log.info("Inside subscribe controller method");
 		return subscriptionService.subscribe(prescriptionDetails, token);
 	}
 
+	@ApiOperation(value = "Unsubscribes to the service", response = ResponseEntity.class)
 	@PostMapping("/unsubscribe/{mId}/{sId}")
 	public ResponseEntity<?> unsubscribe(@RequestHeader("Authorization") String token,
 			@PathVariable("mId") String memberId, @PathVariable("sId") Long subscriptionId)
@@ -43,12 +45,14 @@ public class SubscriptionRestcontroller {
 		return subscriptionService.unsubscribe(memberId, subscriptionId, token);
 	}
 
+	@ApiOperation(value = "Get list of subscriptions", response = List.class)
 	@GetMapping("/getAllSubscriptions/{mId}")
 	public List<SubscriptionDetails> getAllSubscriptionsforMember(@RequestHeader("Authorization") String token,
 			@PathVariable("mId") String mId) throws InvalidTokenException {
 		return subscriptionService.getAllSubscriptions(mId, token);
 	}
 
+	@ApiOperation(value = "Get name of the drug for given subscription service", response = ResponseEntity.class)
 	@GetMapping("/getDrugName/{sId}")
 	public ResponseEntity<String> getDrugNameBySubscriptionId(@RequestHeader("Authorization") String token,
 			@PathVariable("sId") Long sId) throws InvalidTokenException {

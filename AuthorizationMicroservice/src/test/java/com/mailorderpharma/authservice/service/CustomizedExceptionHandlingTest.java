@@ -8,9 +8,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
-import com.mailorderpharma.authservice.service.CustomizedExceptionHandling;
-import com.mailorderpharma.authservice.service.UnauthorizedException;
-
 @SpringBootTest
 public class CustomizedExceptionHandlingTest {
 	
@@ -26,7 +23,6 @@ public class CustomizedExceptionHandlingTest {
 	public void handleUnauthorizedExceptionsTest()
 	{
 		ResponseEntity<?> responseEntity= customizedExceptionHandling.handleUnauthorizedExceptions(unauthorizedException);
-		System.out.println(responseEntity.getStatusCodeValue());
 		assertEquals(400, responseEntity.getStatusCodeValue());
 		
 	}
@@ -35,7 +31,6 @@ public class CustomizedExceptionHandlingTest {
 	public void handleNullPointerExceptions()
 	{
 		ResponseEntity<?> responseEntity= customizedExceptionHandling.handleNullPointerExceptions(null);
-		System.out.println(responseEntity.getStatusCodeValue());
 		assertEquals(400, responseEntity.getStatusCodeValue());
 		
 	}

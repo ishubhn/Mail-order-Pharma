@@ -7,10 +7,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.mailorderpharma.subscription.entity.DrugDetails;
 
-
+/**Interface to connect with authentication service*/
 @FeignClient(url="http://localhost:8081/drugdetailapi",name="drugdetailapp")
 public interface DrugDetailClient {
 
+	/**
+	 * @param token
+	 * @param name
+	 * @return
+	 */
 	@GetMapping("/searchDrugsByName/{name}")
 	public DrugDetails getDrugByName(@RequestHeader("Authorization") final String token, @PathVariable("name") String name);
 }

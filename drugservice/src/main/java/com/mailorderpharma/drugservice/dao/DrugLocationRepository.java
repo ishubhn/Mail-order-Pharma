@@ -7,8 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import com.mailorderpharma.drugservice.entity.DrugLocationDetails;
 
+/**JPA Repository which interacts with database*/
 @Repository
 public interface DrugLocationRepository extends JpaRepository<DrugLocationDetails, String>{
 
+	/**
+	 * @param string
+	 * @return
+	 */
 	List<DrugLocationDetails> findByserialId(String string);
+
 }

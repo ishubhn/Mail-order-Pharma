@@ -18,7 +18,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
 		switch (response.status()) {
 		case 404: {
 			log.error("Error took place when using Feign client to send HTTP Request. Status code " + response.status()
-					+ ", methodKey = " + methodKey);
+					+ ", methodKey = " + methodKey+" ");
 
 			return new ResponseStatusException(HttpStatus.valueOf(response.status()), "Content is not available");
 		}

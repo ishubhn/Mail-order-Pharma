@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+/**Model class for the business details*/
 @Entity
 @Getter
 @Setter
@@ -22,14 +22,31 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RefillOrder {
 	
+	/**
+	 * Refill id
+	 */
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	long id;
+	/**
+	 * Refill date 
+	 */
 	@JsonFormat(pattern="dd-MM-yyyy hh:mm:ss")
 	Date refilledDate;
+	/**
+	 * Pay status
+	 */
 	private Boolean payStatus;
+	/**
+	 * Subscription id
+	 */
 	private long subId;
+	/**
+	 * Quantity to refill
+	 */
 	int quantity;
+	/**
+	 * Member id
+	 */
 	String memberId;
-
 
 }

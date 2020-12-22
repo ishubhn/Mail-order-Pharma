@@ -1,13 +1,12 @@
 package com.mailorderpharma.drugservice.model.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mailorderpharma.drugservice.entity.DrugDetails;
 import com.mailorderpharma.drugservice.entity.DrugLocationDetails;

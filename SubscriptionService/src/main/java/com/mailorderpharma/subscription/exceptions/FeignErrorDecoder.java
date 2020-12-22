@@ -6,20 +6,23 @@ import org.springframework.web.server.ResponseStatusException;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 
+/** Custom exception class */
 @Component
-@Slf4j
+@Log
 public class FeignErrorDecoder implements ErrorDecoder {
-//errordecoder have less response time then global exceptionhandler
-	 
 
+	/**
+	 * called automatically when feign exception occurs
+	 */
 	@Override
 	public Exception decode(String methodKey, Response response) {
 
 		switch (response.status()) {
 		case 404: {
-			log.info("Error took place when using Feign client to send HTTP Request. Status code 404");
+			// when feign-client responds status code 404
+			log.info("Error took place when using Feign client to send HTTP Request");
 			return new ResponseStatusException(HttpStatus.valueOf(response.status()), "Drug is not available");
 		}
 		default:

@@ -12,18 +12,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**Model class for the business details*/
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class DrugLocationDetails {
-
+	/**
+	 *Serial id for location
+	 */
 	@Id 
 	private String serialId;
+	/**
+	 * Location name
+	 */
 	private String location;
+	/**
+	 * Quantity per location
+	 */
 	private int quantity;
 	
 	
+	/**
+	 * Object of drug class containing drug details
+	 */
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
 	@JoinColumn(name = "drugId")

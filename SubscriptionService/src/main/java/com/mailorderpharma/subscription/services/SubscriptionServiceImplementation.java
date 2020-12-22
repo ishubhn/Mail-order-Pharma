@@ -21,6 +21,7 @@ import com.mailorderpharma.subscription.restclients.RefillClient;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 
+/** Service class which holds the business logic */
 @Slf4j
 @Service
 public class SubscriptionServiceImplementation implements SubscriptionService {
@@ -38,49 +39,62 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 	@Autowired
 	SubscriptionRepository subscriptionRepo;
 
+	/**
+	 * @param prescriptionDetails
+	 * @param token
+	 * @return
+	 * @throws InvalidTokenException
+	 */
 	@Override
-	public ResponseEntity<String> subscribe(PrescriptionDetails prescriptionDetails, String token)
-			throws InvalidTokenException, FeignException{
+	public ResponseEntity<String> subscribe(PrescriptionDetails prescriptionDetail, String token)
+			throws InvalidTokenException, FeignException {
 		log.info("Inside subscribe service method");
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			log.info("subscribe service method- token is valid");
-
-			drugDetailClient.getDrugByName(token, prescriptionDetails.getDrugName());
-
-			prescriptionRepo.save(prescriptionDetails);
+			drugDetailClient.getDrugByName(token, prescriptionDetail.getDrugName());
+			PrescriptionDetails prescriptionDetails = prescriptionRepo.save(prescriptionDetail);
 			log.info("prescription saved");
-
-			SubscriptionDetails subscriptionDetails = new SubscriptionDetails(prescriptionDetails.getPrescriptionId(),
+			SubscriptionDetails subscriptionDetail = new SubscriptionDetails(prescriptionDetails.getPrescriptionId(),
 					prescriptionDetails.getCourseDuration(), prescriptionDetails.getQuantity(),
 					prescriptionDetails.getMemberId(), LocalDate.now(), prescriptionDetails.getMemberLocation(),
-					"active",prescriptionDetails.getDrugName());
+					"active", prescriptionDetails.getDrugName());
 
 			log.info("subs obj created");
-			subscriptionDetails = subscriptionRepo.save(subscriptionDetails);
-			refillClient.requestRefillSubscription(token,subscriptionDetails.getSubscriptionId(),
+
+			SubscriptionDetails subscriptionDetails = subscriptionRepo.save(subscriptionDetail);
+			// inform refill service to start refilling for this subscription
+			refillClient.requestRefillSubscription(token, subscriptionDetails.getSubscriptionId(),
 					subscriptionDetails.getMemberId(), subscriptionDetails.getQuantity(),
 					subscriptionDetails.getRefillCycle());
-		} 
-		else
+
+			log.info("subs obj saved");
+		} else
 			throw new InvalidTokenException("Invalid Credentials");
 
-		return new ResponseEntity<>("You have succesfully subscribed to - " + prescriptionDetails.getDrugName(),
+		return new ResponseEntity<>("You have succesfully subscribed to " + prescriptionDetail.getDrugName(),
 				HttpStatus.OK);
 	}
 
+	/**
+	 * @param mId
+	 * @param sId
+	 * @param token
+	 * @return
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public ResponseEntity<String> unsubscribe(String mId, Long sId, String token)
 			throws InvalidTokenException, FeignException {
 
 		if (authFeign.getValidity(token).getBody().isValid()) {
-			if (!refillClient.isPendingPaymentDues(token,sId)) {
+			if (!refillClient.isPendingPaymentDues(token, sId)) {
 				log.info("payment not clear");
 				return new ResponseEntity<>("You have to clear your payment dues first.", HttpStatus.BAD_REQUEST);
 			}
 			subscriptionRepo.deleteById(sId);
-			log.info("deleted ");
+			log.info("dleted ");
 			// inform refill service to stop refilling for this sId
-			refillClient.deleteRefillData(token,sId);
+			refillClient.deleteRefillData(token, sId);
 			log.info("delete refill success");
 		} else
 			throw new InvalidTokenException("Invalid Credentials");
@@ -88,9 +102,16 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 		return new ResponseEntity<>("You have succesfully Unsubscribed", HttpStatus.OK);
 	}
 
+	/**
+	 * @param mId
+	 * @param token
+	 * @return
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public List<SubscriptionDetails> getAllSubscriptions(String mId, String token)
 			throws InvalidTokenException, SubscriptionListEmptyException {
+		// gets a list  of subscriptions for a given member id
 		log.info("get subscription for ");
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			if (subscriptionRepo.findByMemberId(mId).isEmpty())
@@ -101,15 +122,22 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 
 	}
 
+	/**
+	 * @param sId
+	 * @param token
+	 * @return
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public ResponseEntity<String> getDrugNameBySubscriptionId(Long sId, String token) throws InvalidTokenException {
-		log.info("getDrugNameBySubscriptionId -");
+		// extracts Drug name for given subscription Id
+		log.info("getDrugNameBySubscriptionId");
+		String drugName;
 		if (authFeign.getValidity(token).getBody().isValid()) {
-			String drugName = subscriptionRepo.findById(sId).orElseThrow(() ->new SubscriptionListEmptyException("DrugNotFound")).getDrugName();
-			return new ResponseEntity<>(drugName, HttpStatus.OK);
+			drugName = subscriptionRepo.findById(sId)
+					.orElseThrow(() -> new SubscriptionListEmptyException("DrugNotFound")).getDrugName();
 		} else
 			throw new InvalidTokenException("Invalid Credentials");
-
+		return new ResponseEntity<>(drugName, HttpStatus.OK);
 	}
-
 }

@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**Model class for the business details*/
 @Entity(name = "RefillOrderSubscription")
 @Getter
 @Setter
@@ -19,11 +20,26 @@ import lombok.Setter;
 @Table(name = "RefillOrderSubscription")
 public class RefillOrderSubscription {
 	
+	/**
+	 * Refill id
+	 */
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	long id;
+	/**
+	 * Subscription id
+	 */
 	long subscriptionId;
+	/**
+	 * Member id
+	 */
 	String memberId;
+	/**
+	 * Quantity to refill
+	 */
 	int refillQuantity;
+	/**
+	 * Time to refill
+	 */
 	int refillTime;
 	
 

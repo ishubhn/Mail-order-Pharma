@@ -11,9 +11,14 @@ import com.mailorderpharma.drugservice.entity.ExceptionResponse;
 
 import feign.RetryableException;
 
+/**Class to handle all exceptions*/
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+	/**
+	 * @param invalidTokenException
+	 * @return
+	 */
 	@ExceptionHandler(InvalidTokenException.class)
 	public ResponseEntity<ExceptionResponse> invalidTokenException(InvalidTokenException invalidTokenException) {
 		return new ResponseEntity<ExceptionResponse>(
@@ -21,6 +26,10 @@ public class GlobalExceptionHandler {
 				HttpStatus.UNAUTHORIZED);
 	}
 	
+	/**
+	 * @param drugNotFoundException
+	 * @return
+	 */
 	@ExceptionHandler(DrugNotFoundException.class)
 	public ResponseEntity<ExceptionResponse> drugNotFoundException(DrugNotFoundException drugNotFoundException) {
 		return new ResponseEntity<ExceptionResponse>(
@@ -28,6 +37,10 @@ public class GlobalExceptionHandler {
 				HttpStatus.NOT_FOUND);
 	}
 	
+	/**
+	 * @param stockNotFoundException
+	 * @return
+	 */
 	@ExceptionHandler(StockNotFoundException.class)
 	public ResponseEntity<ExceptionResponse> stockNotFoundException(StockNotFoundException stockNotFoundException) {
 		return new ResponseEntity<ExceptionResponse>(
@@ -35,6 +48,9 @@ public class GlobalExceptionHandler {
 				HttpStatus.NOT_FOUND);
 	}
 	
+	/**
+	 * @return  microServiceUnavailableException
+	 */
 	@ExceptionHandler(RetryableException.class)
 	public ResponseEntity<ExceptionResponse> microServiceUnavailableException( ) {
 		return new ResponseEntity<ExceptionResponse>(

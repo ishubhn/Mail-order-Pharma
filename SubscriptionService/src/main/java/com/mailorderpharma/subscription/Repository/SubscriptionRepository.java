@@ -7,8 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.mailorderpharma.subscription.entity.SubscriptionDetails;
 
+/**JPA Repository which interacts with database*/
 public interface SubscriptionRepository extends JpaRepository<SubscriptionDetails, Long> {
 
-	 @Query(value = "SELECT u FROM SubscriptionDetails u WHERE MEMBER_ID = ?1")
+	 /**
+	 * @param mId
+	 * @return
+	 */
+	@Query(value = "SELECT u FROM SubscriptionDetails u WHERE MEMBER_ID = ?1")
 	 List<SubscriptionDetails> findByMemberId(String mId);
 }

@@ -2,8 +2,6 @@ package com.mailorderpharma.authservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class AuthService {
@@ -12,12 +10,4 @@ public class AuthService {
 		SpringApplication.run(AuthService.class, args);
 	}
 
-//	@SuppressWarnings({ "rawtypes", "unchecked" })
-//	@Bean
-//	public FilterRegistrationBean filterRegistrationBean() {
-//		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-//		MyFilter myFilter = new MyFilter();
-//		filterRegistrationBean.setFilter(myFilter);
-//		return filterRegistrationBean;
-//	}
 }

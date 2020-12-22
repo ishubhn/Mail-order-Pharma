@@ -19,6 +19,7 @@ import com.mailorderpharma.drugservice.exception.InvalidTokenException;
 import com.mailorderpharma.drugservice.exception.StockNotFoundException;
 import com.mailorderpharma.drugservice.restclients.AuthFeign;
 
+/** Service class which holds the business logic */
 @Service
 public class DrugDetailsServiceImpl implements DrugDetailsService {
 
@@ -31,18 +32,34 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 	@Autowired
 	private AuthFeign authFeign;
 
+	/**
+	 * @param id
+	 * @param token
+	 * @throws InvalidTokenException
+	 * @throws DrugNotFoundException
+	 * @return drugDetails
+	 */
 	@Override
 	public DrugDetails getDrugById(String id, String token) throws InvalidTokenException, DrugNotFoundException {
+		//Returns a drugdetails object given its id
 		DrugDetails drugDetails = null;
 		if (authFeign.getValidity(token).getBody().isValid()) {
-				drugDetails = drugRepo.findById(id).orElseThrow(()-> new DrugNotFoundException("Drug Not Found"));
+			drugDetails = drugRepo.findById(id).orElseThrow(() -> new DrugNotFoundException("Drug Not Found"));
 		} else
 			throw new InvalidTokenException("Invalid Credentials");
 		return drugDetails;
 	}
 
+	/**
+	 * @param name
+	 * @param token
+	 * @throws InvalidTokenException
+	 * @throws DrugNotFoundException
+	 * @return drugDetails
+	 */
 	@Override
 	public DrugDetails getDrugByName(String name, String token) throws InvalidTokenException, DrugNotFoundException {
+		//Returns a drugdetails object given its name
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			try {
 				return drugRepo.findBydrugName(name).get();
@@ -53,9 +70,19 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 			throw new InvalidTokenException("Invalid Credentials");
 	}
 
+	/**
+	 * @param id
+	 * @param location
+	 * @param token
+	 * @throws InvalidTokenException
+	 * @throws DrugNotFoundException
+	 * @throws StockNotFoundException
+	 * @return stock
+	 */
 	@Override
 	public Stock getDispatchableDrugStock(String id, String location, String token)
 			throws InvalidTokenException, StockNotFoundException, DrugNotFoundException {
+		// get stock of the drug that is dispatchable in given location
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			DrugDetails details = null;
 			try {
@@ -78,25 +105,35 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 		throw new InvalidTokenException("Invalid Credentials");
 	}
 
+	/**
+	 * @param drugName
+	 * @param location
+	 * @param quantity
+	 * @param token
+	 * @throws InvalidTokenException
+	 * @throws DrugNotFoundException
+	 * @throws StockNotFoundException
+	 * @return ResponseEntity
+	 */
 	@Override
 	public ResponseEntity<SuccessResponse> updateQuantity(String drugName, String location, int quantity, String token)
 			throws InvalidTokenException, DrugNotFoundException, StockNotFoundException {
+		//update quantity of drugs
+		// invoked by refill service after placing a refill order
 		if (authFeign.getValidity(token).getBody().isValid()) {
 			DrugDetails details = new DrugDetails();
 			try {
 				details = drugRepo.findBydrugName(drugName).get();
-				System.out.println(details.toString());
 			} catch (Exception e) {
 
 				throw new DrugNotFoundException("Drug Not Found");
 			}
 			List<DrugLocationDetails> dummy = details.getDruglocationQuantities().stream()
 					.filter(x -> x.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
-			
+
 			if (dummy.size() == 0) {
-					System.out.println("Inside dummy 0");
-					throw new StockNotFoundException("Stock Unavailable at your location"); 
-				}
+				throw new StockNotFoundException("Stock Unavailable at your location");
+			}
 
 			else if (dummy.get(0).getQuantity() >= quantity) {
 
@@ -104,15 +141,20 @@ public class DrugDetailsServiceImpl implements DrugDetailsService {
 				int val = tempDetails.getQuantity() - quantity;
 				tempDetails.setQuantity(val);
 				locationRepo.save(tempDetails);
-				return new ResponseEntity<SuccessResponse>(new SuccessResponse("Refill Done Successfully"), HttpStatus.OK);
+				return new ResponseEntity<SuccessResponse>(new SuccessResponse("Refill Done Successfully"),
+						HttpStatus.OK);
 			} else
 				throw new StockNotFoundException("Stock Unavailable at your location");
 		}
 		throw new InvalidTokenException("Invalid Credentials");
 	}
-	
+
+	/**
+	 * @return drugList
+	 */
 	@Override
 	public List<DrugDetails> getAllDrugs() {
+		// Get all drugs present in the database
 		List<DrugDetails> drugList = drugRepo.findAll();
 		return drugList;
 	}

@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.mailorderpharma.refill.dao.RefillOrderRepository;
 import com.mailorderpharma.refill.entity.RefillOrder;
@@ -29,6 +28,7 @@ import com.mailorderpharma.refill.restclients.SubscriptionClient;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 
+/** Service class which holds the business logic */
 @Service
 @Slf4j
 public class RefillOrderServiceImpl implements RefillOrderService {
@@ -48,10 +48,17 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 	@Autowired
 	private AuthFeign authFeign;
 
+	/**
+	 * @param subId
+	 * @param token
+	 * @return List<RefillOrder>
+	 * @throws SubscriptionIdNotFoundException
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public List<RefillOrder> getStatus(long subId, String token)
 			throws SubscriptionIdNotFoundException, InvalidTokenException {
-
+		// get refill status
 		log.info("inside getStatus method");
 		if (authFeign.getValidity(token).isValid()) {
 			ArrayList<RefillOrder> list = new ArrayList<>();
@@ -69,10 +76,17 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 
 	}
 
+	/**
+	 * @param memberId
+	 * @param date
+	 * @param token
+	 * @return List<RefillOrderSubscription>
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public List<RefillOrderSubscription> getRefillDuesAsOfDate(String memberId, int date, String token)
 			throws InvalidTokenException {
-
+		// get refill orders that are due for refill from a given date till current date
 		log.info("inside getRefillDuesAsOfDate method");
 
 		if (authFeign.getValidity(token).isValid()) {
@@ -92,23 +106,32 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 
 	}
 
+	/**
+	 * @param subId
+	 * @param payStatus
+	 * @param quantity
+	 * @param location
+	 * @param token
+	 * @return RefillOrder
+	 * @throws ParseException
+	 * @throws FeignException
+	 * @throws InvalidTokenException
+	 * @throws DrugQuantityNotAvailable
+	 */
 	@Override
 	public RefillOrder requestAdhocRefill(Long subId, Boolean payStatus, int quantity, String location, String token)
 			throws ParseException, FeignException, InvalidTokenException, DrugQuantityNotAvailable {
-
+		// request a on-the-go refill order
 		log.info("inside requestAdhocRefill method");
-
-		// add the name from subscription microservice pending
 
 		if (authFeign.getValidity(token).isValid()) {
 			ResponseEntity<String> entityname = subscriptionClient.getDrugNameBySubscriptionId(subId, token);
 
 			String name = entityname.getBody();
 			log.info("drugname ");
-			
-			//change this qs mark to appropriate type 
-			ResponseEntity<?> responseEntity =  drugDetailClient.updateQuantity(token,
-					name, location, quantity);
+
+			// change this qs mark to appropriate type
+			ResponseEntity<?> responseEntity = drugDetailClient.updateQuantity(token, name, location, quantity);
 			log.info("updated");
 			int responsevalue = responseEntity.getStatusCodeValue();
 			log.info("staus val");
@@ -134,9 +157,19 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 			throw new InvalidTokenException("Invalid Credentials");
 	}
 
+	/**
+	 * @param subId
+	 * @param quantity
+	 * @param memberId
+	 * @param token
+	 * @return RefillOrder
+	 * @throws ParseException
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public RefillOrder requestRefill(long subId, int quantity, String memberId, String token)
 			throws ParseException, InvalidTokenException {
+		// request a refill order for given subscription id
 		log.info("inside requestRefill method");
 
 		if (authFeign.getValidity(token).isValid()) {
@@ -156,8 +189,21 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 			throw new InvalidTokenException("Invalid Credentials");
 	}
 
+	/**
+	 * @param subId
+	 * @param payStatus
+	 * @param quantity
+	 * @param location
+	 * @param token
+	 * @return boolean
+	 * @throws ParseException
+	 * @throws FeignException
+	 * @throws InvalidTokenException
+	 * @throws DrugQuantityNotAvailable
+	 */
 	@Override
-	public boolean getRefillDuesAsOfPayment(long subscriptionId, String token) throws InvalidTokenException {
+	public boolean getRefillPaymentDues(long subscriptionId, String token) throws InvalidTokenException {
+		//check if there are any payment dues for a subscription
 		log.info("inside getRefillDuesAsOfPayment method");
 
 		if (authFeign.getValidity(token).isValid()) {
@@ -176,8 +222,15 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 
 	}
 
+	/**
+	 * @param token
+	 * @return
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public String updateRefill(String token) throws InvalidTokenException {
+		// fulfill refill orders for the day.
+		// this method is invoked by the global timer
 		log.info("inside UpdateRefill method");
 
 		if (authFeign.getValidity(token).isValid()) {
@@ -189,13 +242,14 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 
 						l -> {
 							Calendar cal = Calendar.getInstance(); // this is the method you should use, not the Date(),
-																	// because it is desperated.
+																	// because it is deprecated.
 							int min = cal.get(Calendar.MINUTE);// get the hour number of the day, from 0 to 23
 							if (min % l.getRefillTime() == 0) {
 
 								try {
 									requestRefill(l.getSubscriptionId(), l.getRefillQuantity(), l.getMemberId(), token);
 								} catch (ParseException | InvalidTokenException e) {
+									e.printStackTrace();
 								}
 							}
 						}
@@ -212,8 +266,13 @@ public class RefillOrderServiceImpl implements RefillOrderService {
 			throw new InvalidTokenException("Invalid Credentials");
 	}
 
+	/**
+	 * @param token
+	 * @throws InvalidTokenException
+	 */
 	@Override
 	public void startTimer(String token) throws InvalidTokenException {
+		// Global timer function 
 		log.info("inside startTimer method");
 
 		if (authFeign.getValidity(token).isValid()) {

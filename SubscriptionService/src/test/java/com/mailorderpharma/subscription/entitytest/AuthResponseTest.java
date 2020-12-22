@@ -6,12 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import com.mailorderpharma.subscription.entity.AuthResponse;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 
 public class AuthResponseTest {
 	AuthResponse auth = new AuthResponse();

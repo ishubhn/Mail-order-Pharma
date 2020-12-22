@@ -3,7 +3,6 @@ package com.mailorderpharma.authservice.service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,42 +12,58 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**Service class*/
 @Service
 public class JwtUtil {
 
 	private String secretkey = "${jwt.secret}";
 
+	/**
+	 * @param token
+	 * @return
+	 */
 	public String extractUsername(String token) {
 		
 		return extractClaim(token, Claims::getSubject);
 				
 	}
 
-	/*public Date extractExpiration(String token) {
-		return extractClaim(token, Claims::getExpiration);
-	}*/
-
+	/**
+	 * @param <T>
+	 * @param token
+	 * @param claimsResolver
+	 * @return
+	 */
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
 		final Claims claims = extractAllClaims(token);
 		return claimsResolver.apply(claims);
 	
 	}
 
+	/**
+	 * @param token
+	 * @return
+	 */
 	private Claims extractAllClaims(String token) {
 		
 			return Jwts.parser().setSigningKey(secretkey).parseClaimsJws(token).getBody();
 			
 	}
 
-	/*private Boolean isTokenExpired(String token) {
-		return extractExpiration(token).before(new Date());
-	}*/
-
+	/**
+	 * @param userDetails
+	 * @return
+	 */
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		return createToken(claims, userDetails.getUsername());
 	}
 
+	/**
+	 * @param claims
+	 * @param subject
+	 * @return
+	 */
 	private String createToken(Map<String, Object> claims, String subject) {
 		String compact = Jwts.builder().setClaims(claims).setSubject(subject)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
@@ -57,11 +72,10 @@ public class JwtUtil {
 		return compact;
 	}
 
-	/*public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-	}*/
-
+	/**
+	 * @param token
+	 * @return
+	 */
 	public Boolean validateToken(String token) {
 		try {
 			Jwts.parser().setSigningKey(secretkey).parseClaimsJws(token).getBody();
@@ -70,6 +84,6 @@ public class JwtUtil {
 		catch(Exception e) {
 			return false;
 		}
-		//return !isTokenExpired(token);
+	
 	}
 }

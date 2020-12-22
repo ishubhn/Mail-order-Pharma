@@ -16,8 +16,8 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
-<link href="images/favicon.png" rel="icon">
-<link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="/webportal/images/favicon.png" rel="icon">
+<link href="/webportal/images/apple-touch-icon.png" rel="apple-touch-icon">
 
 <!-- Google Fonts -->
 <link
@@ -25,16 +25,17 @@
 	rel="stylesheet">
 
 <!-- Vendor CSS Files -->
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="vendor/font-awesome/css/font-awesome.min.css"
+<link href="/webportal/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/webportal/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-<link href="vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-<link href="vendor/owl.carousel/assets/owl.carousel.min.css"
+<link href="/webportal/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="/webportal/vendor/owl.carousel/assets/owl.carousel.min.css"
 	rel="stylesheet">
-<link href="vendor/venobox/venobox.css" rel="stylesheet">
-<link href="vendor/aos/aos.css" rel="stylesheet">
+<link href="/webportal/vendor/venobox/venobox.css" rel="stylesheet">
+<link href="/webportal/vendor/aos/aos.css" rel="stylesheet">
+
 <!-- Template Main CSS File -->
-<link href="style/style.css" rel="stylesheet">
+<link href="/webportal/style/style.css" rel="stylesheet">
 </head>
 <body>
 	<!-- ======= Header ======= -->
@@ -43,19 +44,19 @@
 
 			<div id="logo" class="pull-left">
 				<h3>
-					<a href="home">Mail Order Pharmacy</a>
+					<a href="/webportal/home">Mail Order Pharmacy</a>
 				</h3>
 			</div>
 
 			<nav id="nav-menu-container">
 				<ul class="nav-menu">
 					<li class="menu-active"><a href="home">Home</a></li>
-					<li><a href="prescriptionform">Subscribe</a></li>
-					<li><a href="supportedDrugs">Supported drugs</a></li>
-					<li><a href="subscriptions">Subscribed medicines</a></li>
-					<li><a href="home#due-for-refill">Due for refill</a></li>
-					<li><a href="subscriptions">Request now</a></li>
-					<li><a href="logout">Logout</a></li>
+					<li><a href="/webportal/prescriptionform">Subscribe</a></li>
+					<li><a href="/webportal/supportedDrugs">Supported drugs</a></li>
+					<li><a href="/webportal/subscriptions">Subscribed medicines</a></li>
+					<li><a href="/webportal/home#due-for-refill">Due for refill</a></li>
+					<li><a href="/webportal/subscriptions">Request now</a></li>
+					<li><a href="/webportal/logout">Logout</a></li>
 				</ul>
 			</nav>
 			<!-- #nav-menu-container -->
@@ -70,11 +71,11 @@
 				<table>
 					<tr>
 						<th>Quantity</th>
-						<td><input type="number" name="quantity" /></td>
+						<td><input type="number" name="quantity" class="form-control" /></td>
 					</tr>
 					<tr>
 						<th>Location</th>
-						<td><input type="text" name="location" /></td>
+						<td><input type="text" name="location" class="form-control" /></td>
 					</tr>
 					<tr>
 						<th>Payment Status</th>
@@ -90,7 +91,7 @@
 		</div>
 	</section>
 	<!-- ======= Footer ======= -->
-	<footer id="footer" class="mt-auto fixed-bottom">
+	<footer id="footer">
 		<div class="footer-top">
 			<div class="container"></div>
 		</div>
@@ -100,14 +101,14 @@
 		</div>
 	</footer>
 	<!-- End Footer -->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="vendor/jquery.easing/jquery.easing.min.js"></script>
-	<script src="vendor/counterup/counterup.min.js"></script>
-	<script src="vendor/waypoints/jquery.waypoints.min.js"></script>
-	<script src="vendor/aos/aos.js"></script>
+	<script src="/webportal/vendor/jquery/jquery.min.js"></script>
+	<script src="/webportal/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="/webportal/vendor/jquery.easing/jquery.easing.min.js"></script>
+	<script src="/webportal/vendor/counterup/counterup.min.js"></script>
+	<script src="/webportal/vendor/waypoints/jquery.waypoints.min.js"></script>
+	<script src="/webportal/vendor/aos/aos.js"></script>
 
 	<!-- Template Main JS File -->
-	<script src="js/main.js"></script>
+	<script src="/webportal/js/main.js"></script>
 </body>
 </html>

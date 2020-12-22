@@ -13,9 +13,19 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/**Model class for the business details*/
 public class ExceptionResponse {
 
+	/**
+	 * Exception message
+	 */
 	String messge;
+	/**
+	 * Timestamp for the error message
+	 */
 	LocalDateTime timestamp;
+	/**
+	 * Http status 
+	 */
 	HttpStatus status;
 }

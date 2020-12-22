@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mailorderpharma.authservice.controller.AuthController;
 import com.mailorderpharma.authservice.dao.UserDAO;
 import com.mailorderpharma.authservice.entity.AuthResponse;
 import com.mailorderpharma.authservice.entity.UserData;

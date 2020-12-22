@@ -13,24 +13,82 @@ import com.mailorderpharma.refill.exception.SubscriptionIdNotFoundException;
 
 import feign.FeignException;
 
+/** Interface which have the methods of service class */
 @Service
 public interface RefillOrderService {
-	
-	public List<RefillOrder> getStatus(long subId, String token) throws SubscriptionIdNotFoundException, InvalidTokenException;
-	
-	public List<RefillOrderSubscription> getRefillDuesAsOfDate(String memberId,int date,String token)throws InvalidTokenException;
-	
-	public boolean getRefillDuesAsOfPayment(long subscriptionId,String token)throws InvalidTokenException;
-	
-	public RefillOrder requestAdhocRefill(Long subId,Boolean payStatus,int quantity,String location,String token)
+
+	/**
+	 * @param subId
+	 * @param token
+	 * @return List<RefillOrder>
+	 * @throws SubscriptionIdNotFoundException
+	 * @throws InvalidTokenException
+	 */
+	public List<RefillOrder> getStatus(long subId, String token)
+			throws SubscriptionIdNotFoundException, InvalidTokenException;
+
+	/**
+	 * @param memberId
+	 * @param date
+	 * @param token
+	 * @return List<RefillOrderSubscription>
+	 * @throws InvalidTokenException
+	 */
+	public List<RefillOrderSubscription> getRefillDuesAsOfDate(String memberId, int date, String token)
+			throws InvalidTokenException;
+
+	/**
+	 * @param subId
+	 * @param payStatus
+	 * @param quantity
+	 * @param location
+	 * @param token
+	 * @return RefillOrder
+	 * @throws ParseException
+	 * @throws FeignException
+	 * @throws InvalidTokenException
+	 * @throws DrugQuantityNotAvailable
+	 */
+	public RefillOrder requestAdhocRefill(Long subId, Boolean payStatus, int quantity, String location, String token)
 			throws ParseException, FeignException, InvalidTokenException, DrugQuantityNotAvailable;
-	
-	public RefillOrder requestRefill(long subId,int quantity,String memberId,String token) throws ParseException, InvalidTokenException;
 
-	public  String updateRefill(String token) throws InvalidTokenException; 
-	
-	public void startTimer(String token)throws InvalidTokenException;
+	/**
+	 * @param subId
+	 * @param quantity
+	 * @param memberId
+	 * @param token
+	 * @return RefillOrder
+	 * @throws ParseException
+	 * @throws InvalidTokenException
+	 */
+	public RefillOrder requestRefill(long subId, int quantity, String memberId, String token)
+			throws ParseException, InvalidTokenException;
 
-	
-	
+	/**
+	 * @param token
+	 * @return String
+	 * @throws InvalidTokenException
+	 */
+	public String updateRefill(String token) throws InvalidTokenException;
+
+	/**
+	 * @param token
+	 * @throws InvalidTokenException
+	 */
+	public void startTimer(String token) throws InvalidTokenException;
+
+	/**
+	 * @param subId
+	 * @param payStatus
+	 * @param quantity
+	 * @param location
+	 * @param token
+	 * @return boolean
+	 * @throws ParseException
+	 * @throws FeignException
+	 * @throws InvalidTokenException
+	 * @throws DrugQuantityNotAvailable
+	 */
+	public boolean getRefillPaymentDues(long subscriptionId, String token) throws InvalidTokenException;
+
 }

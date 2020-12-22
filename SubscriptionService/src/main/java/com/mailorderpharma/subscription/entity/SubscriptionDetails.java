@@ -11,12 +11,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+/**Model class for the business details*/
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 @AllArgsConstructor
+@Entity
+@ToString
 public class SubscriptionDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,12 +9,13 @@ import org.junit.Test;
 import com.mailorderpharma.subscription.entity.SubscriptionDetails;
 
 
+
 public class SubscriptionDetailsTest {
 
-	SubscriptionDetails subscriptionDetails = new SubscriptionDetails(12001L, 1, 2, "member", LocalDate.now(),
+	SubscriptionDetails subscriptionDetails = new SubscriptionDetails(1200L, 1, 2, "member", LocalDate.now(),
 			"chennai", "paid", "drug1");
 	SubscriptionDetails subscriptionDetails2 = new SubscriptionDetails();
-	SubscriptionDetails subscriptionDetails3 = new SubscriptionDetails(12001L,12001L,"Drug1", 1, 2, "member", LocalDate.now(),
+	SubscriptionDetails subscriptionDetails3 = new SubscriptionDetails(1001L,12001L,"Drug1", 1, 2, "member", LocalDate.now(),
 			"chennai", "paid");
 
 	@Test

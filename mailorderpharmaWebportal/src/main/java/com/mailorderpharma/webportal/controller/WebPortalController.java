@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class MainController {
+public class WebPortalController {
 
 	@Autowired
 	private PortalService portalService;
@@ -85,8 +84,8 @@ public class MainController {
 	}
 
 	@PostMapping("/subscribe")
-	public ModelAndView subscribe(@ModelAttribute PrescriptionDetails prescriptionDetails, HttpSession session,
-			BindingResult result) throws FeignException {
+	public ModelAndView subscribe(@ModelAttribute PrescriptionDetails prescriptionDetails, HttpSession session)
+			throws FeignException {
 		log.info("inn subscribe post controller " + prescriptionDetails.toString());
 		ModelAndView view = new ModelAndView("prescription");
 		view.addObject("msg", portalService.subscribe(prescriptionDetails, session));
@@ -107,29 +106,26 @@ public class MainController {
 	/* Refill end-points-------------------- */
 
 	@PostMapping("/refillDueAsOfDate")
-	public String getRefillDueAsofDate(@ModelAttribute DateModel dateModel, HttpSession session, Model model) throws NumberFormatException, InvalidTokenException {
+	public String getRefillDueAsofDate(@ModelAttribute DateModel dateModel, HttpSession session, Model model)
+			throws NumberFormatException, InvalidTokenException {
 
 		return portalService.getRefillDueAsofDate(session, dateModel, model);
 	}
 
 	@GetMapping("/adhocRefill/{sId}")
-	public ModelAndView adhocRefill(@PathVariable Long sId, HttpSession session) {
-		ModelAndView view = new ModelAndView("adhocRefill");
-		view.addObject("subId", sId);
+	public String adhocRefill(@PathVariable("sId") Long sId, HttpSession session) {
 		log.info("in controller get adhocrefill");
 		session.setAttribute("sub_Id", sId);
-		return view;
+		return "adhocRefill";
 	}
 
 	@PostMapping("/postAdhocRefill")
-	public ModelAndView postAdHocDetails(@ModelAttribute AdHocModel adHocModel, HttpSession session,
-			BindingResult result) throws NumberFormatException, FeignException, ParseException, InvalidTokenException,
+	public ModelAndView postAdHocDetails(@ModelAttribute AdHocModel adHocModel, HttpSession session)
+			throws NumberFormatException, FeignException, ParseException, InvalidTokenException,
 			DrugQuantityNotAvailable {
 		log.info("in postAdHocDetails controller " + adHocModel.getLocation() + adHocModel.isPaymentStatus()
 				+ adHocModel.getQuantity());
 		ModelAndView view = new ModelAndView("refillstatus");
-		
-//		view.addObject("msg", portalService.requestAdhocRefill( session, adHocModel));
-		return portalService.requestAdhocRefill(session, adHocModel,view);
+		return portalService.requestAdhocRefill(session, adHocModel, view);
 	}
 }

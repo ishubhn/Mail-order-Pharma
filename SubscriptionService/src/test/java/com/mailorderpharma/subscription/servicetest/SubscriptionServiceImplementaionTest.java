@@ -1,6 +1,5 @@
 package com.mailorderpharma.subscription.servicetest;
 
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -11,16 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.jayway.jsonpath.Option;
 import com.mailorderpharma.subscription.Repository.PrescriptionRepository;
 import com.mailorderpharma.subscription.Repository.SubscriptionRepository;
 import com.mailorderpharma.subscription.entity.DrugDetails;
@@ -69,7 +65,7 @@ public class SubscriptionServiceImplementaionTest {
 		when(prescriptionRepo.save(prescriptionDetails)).thenReturn(prescriptionDetails);
 		when(subscriptionRepo.save(subscriptionDetails))
 				.thenReturn(subscriptionDetails);
-		assertEquals(new ResponseEntity<>("You have succesfully subscribed to - " + prescriptionDetails.getDrugName(),
+		assertEquals(new ResponseEntity<>("You have succesfully subscribed to " + prescriptionDetails.getDrugName(),
 				HttpStatus.OK), subscriptionServiceImplementation.subscribe(prescriptionDetails, "token"));
 
 	}

@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mailorderpharma.authservice.entity.MessageResponse;
 
 @SpringBootTest
 public class MessageResponseTest {

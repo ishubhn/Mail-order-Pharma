@@ -32,10 +32,19 @@ class RefillControllerTest {
 	@Mock
 	RefillOrderSubscriptionService refillOrderSubscriptionService;
 
+//	@MockBean
+//	MockMvc mockMvc;
 
 	@Test
 	public void viewRefillStatusTest() throws Exception {
 
+//		MvcResult result = mockMvc.perform(get("/viewRefillStatus/45")).andReturn();
+//		assertThrows(SubscriptionIdNotFoundException.class, ()->result.getResponse());
+//		Date date =new Date();
+//		RefillOrder refillOrder = new RefillOrder(1,date,true,1,1,"1");
+//		List<RefillOrder> list = new ArrayList<RefillOrder>();
+//		list.add(refillOrder);
+//		//when(service.getStatus(1, "token")).
 		refillController.viewRefillStatus("token", 1);
 	}
 

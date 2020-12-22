@@ -9,10 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import com.mailorderpharma.refill.entity.RefillOrderSubscription;
 
+/**JPA Repository which interacts with database*/
 @Repository
 @Transactional
 public interface RefillOrderSubscriptionRepository extends JpaRepository<RefillOrderSubscription, Long> {
 	
+	/**
+	 * @param subscriptionId
+	 * @return
+	 */
 	@Modifying
 	@Query("delete from RefillOrderSubscription where subscriptionId=?1")
 	public int deleteBySubscriptionId(long subscriptionId);
