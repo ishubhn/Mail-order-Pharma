@@ -32,38 +32,32 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
 	rel="stylesheet">
-<!--   <link rel="stylesheet" type="text/css" href="summa1.css"> -->
 
 <!-- Vendor CSS Files -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<link href="vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-<link href="vendor/owl.carousel/assets/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="vendor/venobox/venobox.css" rel="stylesheet">
-<link href="vendor/aos/aos.css" rel="stylesheet">
+<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 <!-- Template Main CSS File -->
 <link href="style/style.css" rel="stylesheet">
 
-<!-- =======================================================
-  * Template Name: Regna - v2.2.0
-  * Template URL: https://bootstrapmade.com/regna-bootstrap-onepage-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+
+
+<script
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
 </head>
-<body>
+<body >
 
 	<!-- ======= Header ======= -->
-	<header id="header">
-		<div class="container">
+	 <header id="header">
+		 <div class="container">
 
 			<div id="logo" class="pull-left">
-				<a href="home">Mail Order Pharmacy</a>
-				<!-- Uncomment below if you prefer to use a text logo -->
-				<!--<h1><a href="#hero">Regna</a></h1>-->
+				<h3>
+					<a href="home">Mail Order Pharmacy</a>
+				</h3>
 			</div>
 
 			<nav id="nav-menu-container">
@@ -77,54 +71,76 @@
 					<li><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
-			<!-- #nav-menu-container -->
+
 		</div>
-	</header>
-	<!-- End Header -->
+	</header> 
+	
 	<section id="services">
 		<div class="container">
-			<br>
-			<br>
+			
+			 <br> <br>
 			<h1>Your Subscriptions</h1>
 
-			<div class="container bcontent">
+			  <div class="container bcontent"> 
 				<hr />
-				<c:choose>
-					<c:when test="${not empty subscriptionList}">
-						<c:forEach items="${subscriptionList}" var="subscription">
-							<div class="card" style="width: 500px;">
-								<div class="row no-gutters">
-									<div class="col-sm-7">
-										<div class="card-body">
-											<h5 class="card-title">${subscription.drugName }</h5>
-											<p class="card-text">Quantity: ${subscription.quantity }</p>
-											<p class="card-text">Refill Cycle (days):
-												${subscription.refillCycle }</p>
-											<p class="card-text">Subscription Date:
-												${subscription.subscriptionDate }</p>
-											<p class="card-text">Subscription Status:
-												${subscription.subscriptionStatus }</p>
-											<p class="card-text">Delivery Location:
-												${subscription.memberLocation }</p>
-											<form method=post
-												action="unsubscribe/${subscription.subscriptionId }">
-												<input class="btn btn-primary" type=submit
-													value="Unsubscribe">
-													<a class="btn btn-primary" href="adhocRefill/${subscription.subscriptionId}"> Request refill</a>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<h1>${msg}</h1>
-					</c:otherwise>
-				</c:choose>
+				<div class="container">
+					<table class="table table-fluid" id="myTable">
+						<thead>
+							<tr>
+								<th>drugName</th>
+								<th>quantity</th>
+								<th>Refill Cycle</th>
+								<th>Status</th>
+								<th>Location</th>
+								<th>Subscribed on</th>
+								<th>unsubscribe</th>
+								<th>Request refill</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty subscriptionList}">
+									<c:forEach items="${subscriptionList}" var="subscription">
+
+										<tr>
+											<td>${subscription.drugName }</td>
+											<td>${subscription.quantity }</td>
+											<td>${subscription.refillCycle }</td>
+											<td>${subscription.subscriptionStatus }</td>
+											<td>${subscription.memberLocation }</td>
+											<td>${subscription.subscriptionDate }</td>
+												<form method=post
+													action="unsubscribe/${subscription.subscriptionId }">
+													<td><input class="btn btn-success" type=submit
+														value="Unsubscribe"> </td>
+													<td><a class="btn btn-secondary"
+														href="adhocRefill/${subscription.subscriptionId}">
+														Request refill</a></td>
+
+												</form>
+										</tr>
+
+
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<h3>${msg}</h3>
+									<br>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+					<script>
+						$(document).ready(function() {
+							$('#myTable').DataTable();
+						});
+					</script>
+				</div>
+
 			</div>
-		</div>
+	 </div>  
 	</section>
+
 	<br>
 	<br>
 	<br>
@@ -134,7 +150,7 @@
 	<br>
 	<br>
 	<!-- ======= Footer ======= -->
-	<div class="footer-margin">
+  <div class="footer-margin">
 		<footer id="footer">
 			<div class="footer-top">
 				<div class="container"></div>
@@ -144,16 +160,9 @@
 				<div class="credits">Thank you! We are here for your needs.</div>
 			</div>
 		</footer>
-		<!-- End Footer -->
-	</div>
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="vendor/jquery.easing/jquery.easing.min.js"></script>
-	<script src="vendor/counterup/counterup.min.js"></script>
-	<script src="vendor/waypoints/jquery.waypoints.min.js"></script>
-	<script src="vendor/aos/aos.js"></script>
-
+		
+	 </div> 
 	<!-- Template Main JS File -->
-	<script src="js/main.js"></script>
+	  <script src="js/main.js"></script>  
 </body>
 </html>

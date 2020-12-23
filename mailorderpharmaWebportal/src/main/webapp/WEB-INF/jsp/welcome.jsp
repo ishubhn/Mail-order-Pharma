@@ -174,7 +174,7 @@
         <div class="md-form md-bg input-with-pre-icon">
           <form name="dueForRefill" model="dateModel" action="/webportal/refillDueAsOfDate" method="post">
             <label for="example-date-input" class="col-2 col-form-label">Date</label>
-            <input class="form-control" type="date" value="2011-08-19" name ="date" id="example-date-input">
+            <input class="form-control" type="date" name ="date" id="example-date-input">
             <br>
             <button type="submit" class="btn btn-outline-success btn-lg ">Submit</button>
           </form>
@@ -191,7 +191,7 @@
             <p class="cta-text"> We have got you covered if you require extra dosages for your medicine immediately, seperate from the monthly delivery</p>
           </div>
           <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="AdHoc">Click to order</a>
+            <a class="cta-btn align-middle" href="subscriptions">Click to order</a>
           </div>
         </div>
 

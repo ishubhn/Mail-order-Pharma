@@ -28,11 +28,6 @@
 <link href="/webportal/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="/webportal/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-<link href="/webportal/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-<link href="/webportal/vendor/owl.carousel/assets/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="/webportal/vendor/venobox/venobox.css" rel="stylesheet">
-<link href="/webportal/vendor/aos/aos.css" rel="stylesheet">
 
 <!-- Template Main CSS File -->
 <link href="/webportal/style/style.css" rel="stylesheet">
@@ -51,12 +46,12 @@
 			<nav id="nav-menu-container">
 				<ul class="nav-menu">
 					<li class="menu-active"><a href="home">Home</a></li>
-					<li><a href="/webportal/prescriptionform">Subscribe</a></li>
-					<li><a href="/webportal/supportedDrugs">Supported drugs</a></li>
-					<li><a href="/webportal/subscriptions">Subscribed medicines</a></li>
-					<li><a href="/webportal/home#due-for-refill">Due for refill</a></li>
-					<li><a href="/webportal/subscriptions">Request now</a></li>
-					<li><a href="/webportal/logout">Logout</a></li>
+					<li><a href="home#subscribe">Subscribe</a></li>
+					<li><a href="home#services">Supported drugs</a></li>
+					<li><a href="home#view-subscribed-drugs">Subscribed medicines</a></li>
+					<li><a href="home#due-for-refill">Due for refill</a></li>
+					<li><a href="home#ad-hoc-request">Request now</a></li>
+					<li><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
 			<!-- #nav-menu-container -->
@@ -103,9 +98,6 @@
 	<!-- End Footer -->
 	<script src="/webportal/vendor/jquery/jquery.min.js"></script>
 	<script src="/webportal/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="/webportal/vendor/jquery.easing/jquery.easing.min.js"></script>
-	<script src="/webportal/vendor/counterup/counterup.min.js"></script>
-	<script src="/webportal/vendor/waypoints/jquery.waypoints.min.js"></script>
 	<script src="/webportal/vendor/aos/aos.js"></script>
 
 	<!-- Template Main JS File -->

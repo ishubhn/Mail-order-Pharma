@@ -28,7 +28,6 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-<link href="vendor/aos/aos.css" rel="stylesheet">
 
 <!-- Template Main CSS File -->
 <link href="style/style.css" rel="stylesheet">
@@ -47,11 +46,11 @@
 			<nav id="nav-menu-container">
 				<ul class="nav-menu">
 					<li class="menu-active"><a href="home">Home</a></li>
-					<li><a href="prescriptionform">Subscribe</a></li>
-					<li><a href="supportedDrugs">Supported drugs</a></li>
-					<li><a href="subscriptions">Subscribed medicines</a></li>
+					<li><a href="home#subscribe">Subscribe</a></li>
+					<li><a href="home#services">Supported drugs</a></li>
+					<li><a href="home#view-subscribed-drugs">Subscribed medicines</a></li>
 					<li><a href="home#due-for-refill">Due for refill</a></li>
-					<li><a href="subscriptions">Request now</a></li>
+					<li><a href="home#ad-hoc-request">Request now</a></li>
 					<li><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
@@ -91,7 +90,9 @@
 						</div>
 					</div>
 				</div>
+				<br>
 			</c:forEach>
+			<br>
 			</c:when>
 			<c:otherwise>
 			<h1>${msg}</h1>

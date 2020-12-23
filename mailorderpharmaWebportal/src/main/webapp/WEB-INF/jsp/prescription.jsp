@@ -26,14 +26,7 @@
 
 <!-- Vendor CSS Files -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<link href="vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-<link href="vendor/owl.carousel/assets/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="vendor/venobox/venobox.css" rel="stylesheet">
-<link href="vendor/aos/aos.css" rel="stylesheet">
-
+<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <!-- Template Main CSS File -->
 <link href="style/style.css" rel="stylesheet">
 </head>
@@ -44,19 +37,19 @@
 		<div class="container">
 
 			<div id="logo" class="pull-left">
-				<a href="home">Mail Order Pharmacy</a>
-				<!-- Uncomment below if you prefer to use a text logo -->
-				<!--<h1><a href="#hero">Regna</a></h1>-->
+				<h3>
+					<a href="/webportal/home">Mail Order Pharmacy</a>
+				</h3>
 			</div>
 
 			<nav id="nav-menu-container">
 				<ul class="nav-menu">
 					<li class="menu-active"><a href="home">Home</a></li>
-					<li><a href="prescriptionform">Subscribe</a></li>
-					<li><a href="supportedDrugs">Supported drugs</a></li>
-					<li><a href="subscriptions">Subscribed medicines</a></li>
+					<li><a href="home#subscribe">Subscribe</a></li>
+					<li><a href="home#services">Supported drugs</a></li>
+					<li><a href="home#view-subscribed-drugs">Subscribed medicines</a></li>
 					<li><a href="home#due-for-refill">Due for refill</a></li>
-					<li><a href="subscriptions">Request now</a></li>
+					<li><a href="home#ad-hoc-request">Request now</a></li>
 					<li><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
@@ -68,6 +61,7 @@
 		<div class="container">
 			<br> <br>
 			<h3>Prescription details</h3>
+			<h3>${msg}</h3>
 			<form name="prescriptionform" model="prescriptionDetails"
 				method="post"  onsubmit="return validate()" action="subscribe">
 
@@ -114,19 +108,19 @@
 				</div>
 				<div class="form-group">
 					<label for="quantity">Quantity</label> <input type="number"
-						class="form-coquantityntrol" name="quantity" id="quantity"
+						class="form-control" name="quantity" id="quantity"
 						placeholder=""> <span class="text-danger"
 						id="quantitySpan"></span>
 				</div>
 				<div class="form-group">
 					<label for="courseDuration">Course Duration</label> <input
-						type="number" class="form-coquantityntrol" name="courseDuration"
+						type="number" class="form-control" name="courseDuration"
 						id="courseDuration" placeholder=""> <span
 						class="text-danger" id="courseDurationSpan"></span>
 				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-success">Submit</button>
 			</form>
-			<h3>${msg}</h3>
+			
 		</div>
 	</section>
 	<!-- ======= Footer ======= -->
@@ -144,9 +138,6 @@
 
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="vendor/jquery.easing/jquery.easing.min.js"></script>
-	<script src="vendor/counterup/counterup.min.js"></script>
-	<script src="vendor/waypoints/jquery.waypoints.min.js"></script>
 	<script src="vendor/aos/aos.js"></script>
 
 	<!-- Template Main JS File -->
