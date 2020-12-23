@@ -7,21 +7,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+/**Model class for the business details*/
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class PrescriptionDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long PrescriptionId;
-	private Long memberId;
+	private Long prescriptionId;
+	private String memberId;
+	private String memberLocation;
 	private String policyNumber;
 	private String insuranceProvider;
 	private LocalDate prescriptionDate;
-	private Long drugId;
+	private String drugName;
 	private String dosageDefinition;
-	private String prescriptionCourse;
+	private int quantity;
+	private int courseDuration; 
 	private String doctorName;
 
 }
